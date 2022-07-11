@@ -4,11 +4,13 @@ defmodule LineDrive.MixProject do
   def project do
     [
       app: :line_drive,
-      version: "0.1.0",
+      description: description(),
+      deps: deps(),
       elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
+      package: package(),
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      version: "0.1.0"
     ]
   end
 
@@ -29,9 +31,23 @@ defmodule LineDrive.MixProject do
     [
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:jason, "~> 1.3"},
       {:plug_cowboy, "~> 2.0", only: :test},
       {:tesla, "~> 1.0"}
+    ]
+  end
+
+  defp description do
+    ~s"""
+    LineDrive is a client package for communicating with Pipedrive (pipedrive.com)
+    """
+  end
+
+  defp package do
+    [
+      licenses: ["MIT"],
+      links: %{"Github" => "https://github.com/tmecklem/line_drive"}
     ]
   end
 end
