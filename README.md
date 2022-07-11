@@ -1,6 +1,11 @@
 # LineDrive
 
-**TODO: Add description**
+LineDrive is a client package for communicating with Pipedrive (pipedrive.com).
+
+Goals:
+* Basic API support for Pipedrive Resources (Deals, etc)
+* WebHook support for pipedrive event callback
+* OAuth support for Marketplace support (and to perform actions on behalf of users)
 
 ## Installation
 
@@ -15,7 +20,4 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/line_drive>.
-
+The docs can be found at <https://hexdocs.pm/line_drive>.
