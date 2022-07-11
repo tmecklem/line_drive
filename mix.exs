@@ -47,7 +47,7 @@ defmodule LineDrive.MixProject do
   defp package do
     [
       licenses: ["MIT"],
-      links: %{"Github" => "https://github.com/tmecklem/line_drive"}
+      links: %{"GitHub" => "https://github.com/tmecklem/line_drive"}
     ]
   end
 end
