@@ -6,7 +6,10 @@ defmodule LineDrive.FakePipedriveServer do
 
   use Plug.Router
 
-  import LineDrive.FakeDealApiHandler
+  import LineDrive.{
+    FakeDealApiHandler,
+    FakePipelineApiHandler
+  }
 
   plug(:match)
 
@@ -22,6 +25,18 @@ defmodule LineDrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_get_deal(conn.query_params)
+  end
+
+  get "/api/v1/pipelines/:id/deals" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_pipeline_deals(conn.query_params)
+  end
+
+  get "/api/v1/pipelines" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_pipelines()
   end
 
   match _ do
