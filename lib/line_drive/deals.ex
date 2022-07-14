@@ -9,6 +9,7 @@ defmodule LineDrive.Deals do
   alias Tesla.Client
 
   @callback get_deal(Client.t(), integer) :: {:ok, Deal.t()}
+  @callback search_deals(Client.t(), binary()) :: {:ok, list(Deal.t())}
 
   def get_deal(%Client{} = client, deal_id) do
     client
@@ -16,6 +17,27 @@ defmodule LineDrive.Deals do
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{data: deal_data}}} ->
         {:ok, Deal.new(deal_data)}
+
+      {:error, env} ->
+        {:error, env}
+    end
+  end
+
+  def search_deals(%Client{} = client, term, opts \\ []) do
+    start = Keyword.get(opts, :start, 0)
+    limit = Keyword.get(opts, :limit, 50)
+    status = Keyword.get(opts, :status, "open")
+
+    client
+    |> get("/api/v1/deals/search", query: [term: term, start: start, limit: limit, status: status])
+    |> case do
+      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
+        deals =
+          data
+          |> Map.get(:items)
+          |> Enum.map(fn item_container -> Deal.new(item_container.item) end)
+
+        {:ok, deals}
 
       {:error, env} ->
         {:error, env}

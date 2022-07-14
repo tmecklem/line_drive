@@ -4,7 +4,7 @@ defmodule LineDrive.Deal do
   """
 
   @type t :: %__MODULE__{
-          expected_close_date: Date.t(),
+          expected_close_date: Date.t() | nil,
           id: integer,
           pipeline_id: integer,
           stage_id: integer,
@@ -28,11 +28,7 @@ defmodule LineDrive.Deal do
   defstruct @keys
 
   def new(map) do
-    struct(
-      __MODULE__,
-      map
-      |> Map.put(:expected_close_date, parse_date(map.expected_close_date))
-    )
+    struct(__MODULE__, Map.update(map, :expected_close_date, nil, &parse_date/1))
   end
 
   defp parse_date(nil), do: nil

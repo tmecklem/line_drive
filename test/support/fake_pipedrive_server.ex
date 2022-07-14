@@ -28,6 +28,12 @@ defmodule LineDrive.FakePipedriveServer do
     |> handle_get_deal(conn.query_params)
   end
 
+  get "/api/v1/deals/search" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_search_deals(conn.query_params)
+  end
+
   get "/api/v1/persons/search" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
