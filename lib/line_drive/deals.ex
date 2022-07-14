@@ -1,6 +1,6 @@
 defmodule LineDrive.Deals do
   @moduledoc """
-  This module encapsulated calls to the pipedrive deals resource API
+  This module encapsulates calls to the pipedrive deals resource API
   """
 
   use Tesla
