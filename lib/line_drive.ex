@@ -6,6 +6,10 @@ defmodule LineDrive do
   use Tesla
 
   defdelegate get_deal(client, deal_id), to: LineDrive.Deals
+
+  defdelegate search_persons(client, term, opts), to: LineDrive.Persons
+  defdelegate get_person(client, person_id), to: LineDrive.Persons
+
   defdelegate list_pipelines(client), to: LineDrive.Pipelines
   defdelegate list_pipeline_deals(client, pipeline_id), to: LineDrive.Pipelines
 
@@ -13,7 +17,8 @@ defmodule LineDrive do
     middleware = [
       {Tesla.Middleware.BaseUrl, base_url},
       {Tesla.Middleware.JSON, engine: Jason, engine_opts: [keys: :atoms]},
-      {Tesla.Middleware.Query, api_token: api_token}
+      {Tesla.Middleware.Query, api_token: api_token},
+      Tesla.Middleware.PathParams
     ]
 
     Tesla.client(middleware)

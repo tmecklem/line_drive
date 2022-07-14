@@ -8,6 +8,7 @@ defmodule LineDrive.FakePipedriveServer do
 
   import LineDrive.{
     FakeDealApiHandler,
+    FakePersonApiHandler,
     FakePipelineApiHandler
   }
 
@@ -25,6 +26,18 @@ defmodule LineDrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_get_deal(conn.query_params)
+  end
+
+  get "/api/v1/persons/search" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_search_persons(conn.query_params)
+  end
+
+  get "/api/v1/persons/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_person(conn.params)
   end
 
   get "/api/v1/pipelines/:id/deals" do
