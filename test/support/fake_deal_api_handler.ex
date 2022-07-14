@@ -193,4 +193,56 @@ defmodule LineDrive.FakeDealApiHandler do
     conn
     |> send_resp(200, response_body)
   end
+
+  def handle_search_deals(conn, %{"term" => _term}) do
+    response_body = ~s"""
+    {
+      "success": true,
+      "data": {
+        "items": [
+          {
+            "result_score": 1.092828,
+            "item": {
+              "id": 2,
+              "type": "deal",
+              "title": "Great Amazing Deal",
+              "value": 40000,
+              "currency": "USD",
+              "status": "open",
+              "visible_to": 3,
+              "owner": {
+                "id": 15783886
+              },
+              "stage": {
+                "id": 7,
+                "name": "Qualified"
+              },
+              "person": {
+                "id": 1,
+                "name": "Tim Mecklem"
+              },
+              "organization": {
+                "id": 1,
+                "name": "Mecklem, LLC",
+                "address": null
+              },
+              "custom_fields": [],
+              "notes": []
+            }
+          }
+        ]
+      },
+      "additional_data": {
+        "pagination": {
+          "start": 0,
+          "limit": 25,
+          "more_items_in_collection": false
+        }
+      }
+    }
+    """
+
+    conn
+    |> send_resp(200, response_body)
+  end
 end
