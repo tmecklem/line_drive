@@ -22,16 +22,16 @@ defmodule LineDrive.FakePipedriveServer do
 
   plug(:dispatch)
 
-  get "/api/v1/deals" do
-    conn
-    |> put_resp_header("content-type", "application/json;charset=utf-8")
-    |> handle_get_deal(conn.query_params)
-  end
-
   get "/api/v1/deals/search" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_search_deals(conn.query_params)
+  end
+
+  get "/api/v1/deals/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_deal(conn.params)
   end
 
   get "/api/v1/persons/search" do
