@@ -13,7 +13,7 @@ defmodule LineDrive.Deals do
 
   def get_deal(%Client{} = client, deal_id) do
     client
-    |> get("/api/v1/deals", query: [id: deal_id])
+    |> get("/api/v1/deals/:id", opts: [path_params: [id: deal_id]])
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{data: deal_data}}} ->
         {:ok, Deal.new(deal_data)}
