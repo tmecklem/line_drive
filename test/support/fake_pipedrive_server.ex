@@ -7,6 +7,7 @@ defmodule LineDrive.FakePipedriveServer do
   use Plug.Router
 
   import LineDrive.{
+    FakeActivityApiHandler,
     FakeActivityTypeApiHandler,
     FakeDealApiHandler,
     FakePersonApiHandler,
@@ -22,6 +23,12 @@ defmodule LineDrive.FakePipedriveServer do
   )
 
   plug(:dispatch)
+
+  post "/api/v1/activities" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_add_activity()
+  end
 
   get "/api/v1/activityTypes" do
     conn

@@ -3,12 +3,14 @@ defmodule LineDrive.ActivityType do
   This module and enclosed struct represent a activity type in pipedrive.
   """
 
+  @type key_string :: binary()
+
   @type t :: %__MODULE__{
           active_flag: boolean,
           add_time: NaiveDateTime.t() | nil,
           id: integer,
           is_custom_flag: boolean(),
-          key_string: binary(),
+          key_string: key_string(),
           name: binary(),
           update_time: NaiveDateTime.t() | nil
         }
