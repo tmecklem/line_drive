@@ -152,6 +152,6 @@ defmodule LineDrive.FakeActivityApiHandler do
     """
 
     conn
-    |> send_resp(200, response_body)
+    |> send_resp(201, response_body)
   end
 end
