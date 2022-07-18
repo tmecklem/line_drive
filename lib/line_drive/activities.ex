@@ -10,11 +10,11 @@ defmodule LineDrive.Activities do
 
   @callback add_activity(Client.t(), Activity.t()) :: {:ok, Activity.t()}
 
-  def add_activity(%Client{} = client, %Activity{} = activity) do
+  def add_activity(%Client{} = client, %Activity{id: nil} = activity) do
     client
     |> post("/api/v1/activities", activity)
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{data: activity_data}}} ->
+      {:ok, %Tesla.Env{status: 201, body: %{data: activity_data}}} ->
         {:ok, Activity.new(activity_data)}
 
       {:error, env} ->

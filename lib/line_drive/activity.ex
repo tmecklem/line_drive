@@ -29,7 +29,6 @@ defmodule LineDrive.Activity do
         }
 
   @enforce_keys [:subject, :type]
-  @derive Jason.Encoder
   defstruct [
     :deal_id,
     :due_date,
@@ -49,6 +48,14 @@ defmodule LineDrive.Activity do
     busy_flag: false,
     done: 0
   ]
+
+  defimpl Jason.Encoder, for: __MODULE__ do
+    def encode(%{id: nil} = activity, opts) do
+      Jason.Encode.value(Map.delete(Map.from_struct(activity), :id), opts)
+    end
+
+    def encode(activity, opts), do: Jason.encode(activity, opts)
+  end
 
   def new(map) do
     struct(
