@@ -28,7 +28,14 @@ defmodule LineDrive.Deal do
   defstruct @keys
 
   def new(map) do
-    struct(__MODULE__, Map.update(map, :expected_close_date, nil, &parse_date/1))
+    struct(__MODULE__, Map.update(atomize_keys(map), :expected_close_date, nil, &parse_date/1))
+  end
+
+  defp atomize_keys(map) do
+    @keys
+    |> Enum.reduce(%{}, fn key, acc ->
+      Map.put(acc, key, Map.get_lazy(map, key, fn -> Map.get(map, Atom.to_string(key), nil) end))
+    end)
   end
 
   defp parse_date(nil), do: nil
