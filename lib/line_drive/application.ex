@@ -10,6 +10,7 @@ defmodule LineDrive.Application do
     children = [
       # Starts a worker by calling: LineDrive.Worker.start_link(arg)
       # {LineDrive.Worker, arg}
+      {Registry, keys: :duplicate, name: Registry.LineDriveEvents, id: Registry.LineDriveEvents}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
