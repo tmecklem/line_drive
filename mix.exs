@@ -10,7 +10,7 @@ defmodule LineDrive.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
       start_permanent: Mix.env() == :prod,
-      version: "0.5.1"
+      version: "0.5.2"
     ]
   end
 
@@ -33,7 +33,7 @@ defmodule LineDrive.MixProject do
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:jason, "~> 1.3"},
-      {:plug_cowboy, "~> 2.0", only: :test},
+      {:plug_cowboy, ">= 1.0.0", optional: true},
       {:tesla, "~> 1.0"},
       {:timex, "~> 3.7"}
     ]
