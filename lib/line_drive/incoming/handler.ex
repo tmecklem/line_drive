@@ -29,7 +29,9 @@ defmodule LineDrive.Incoming.Handler do
   def init(opts), do: opts
 
   def call(conn, opts) do
-    conn = Plug.BasicAuth.basic_auth(conn, opts)
+    auth_fn = Keyword.fetch!(opts, :auth_fn)
+    auth_opts = if is_function(auth_fn), do: auth_fn.(), else: opts
+    conn = Plug.BasicAuth.basic_auth(conn, auth_opts)
 
     super(conn, opts)
   end
