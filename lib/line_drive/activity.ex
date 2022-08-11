@@ -8,46 +8,27 @@ defmodule LineDrive.Activity do
     ActivityType
   }
 
-  @type t :: %__MODULE__{
-          busy_flag: boolean,
-          deal_id: integer,
-          done: integer,
-          due_date: Date.t(),
-          due_time: binary(),
-          duration: binary(),
-          id: binary(),
-          lead_id: integer,
-          location: binary(),
-          note: binary(),
-          org_id: integer,
-          participants: list(ActivityParticipant.t()),
-          person_id: integer,
-          public_description: binary(),
-          subject: binary(),
-          type: ActivityType.key_string(),
-          user_id: integer
-        }
+  use TypedStruct
 
-  @enforce_keys [:subject, :type]
-  defstruct [
-    :deal_id,
-    :due_date,
-    :due_time,
-    :duration,
-    :id,
-    :lead_id,
-    :location,
-    :note,
-    :org_id,
-    :participants,
-    :person_id,
-    :public_description,
-    :subject,
-    :type,
-    :user_id,
-    busy_flag: false,
-    done: 0
-  ]
+  typedstruct enforce: true do
+    field :busy_flag, boolean()
+    field :deal_id, pos_integer()
+    field :done, 0 | 1
+    field :due_date, Date.t()
+    field :due_time, String.t()
+    field :duration, String.t()
+    field :id, pos_integer()
+    field :lead_id, pos_integer()
+    field :location, String.t()
+    field :note, String.t()
+    field :ord_id, pos_integer()
+    field :participants, list(ActivityParticipant.t())
+    field :person_id, pos_integer()
+    field :public_description, String.t()
+    field :subject, String.t()
+    field :type, ActivityType.key_string()
+    field :user_id, pos_integer()
+  end
 
   defimpl Jason.Encoder, for: __MODULE__ do
     def encode(%{id: nil} = activity, opts) do
