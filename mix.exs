@@ -35,7 +35,8 @@ defmodule LineDrive.MixProject do
       {:jason, "~> 1.3"},
       {:plug_cowboy, ">= 1.0.0", optional: true},
       {:tesla, "~> 1.0"},
-      {:timex, "~> 3.7"}
+      {:timex, "~> 3.7"},
+      {:typed_struct, "~> 0.3.0"}
     ]
   end
 

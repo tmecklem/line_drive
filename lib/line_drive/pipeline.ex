@@ -3,31 +3,19 @@ defmodule LineDrive.Pipeline do
   This module and enclosed struct represent a pipeline in pipedrive.
   """
 
-  @type t :: %__MODULE__{
-          active: boolean,
-          add_time: NaiveDateTime.t(),
-          deal_probability: boolean,
-          id: integer,
-          name: binary(),
-          order_nr: integer,
-          selected: boolean,
-          update_time: NaiveDateTime.t() | nil,
-          url_title: binary()
-        }
+  use TypedStruct
 
-  @keys [
-    :active,
-    :add_time,
-    :deal_probability,
-    :id,
-    :name,
-    :order_nr,
-    :selected,
-    :update_time,
-    :url_title
-  ]
-  @enforce_keys @keys
-  defstruct @keys
+  typedstruct enforce: true do
+    field :active, boolean()
+    field :add_time, NaiveDateTime.t()
+    field :deal_probability, float()
+    field :id, pos_integer()
+    field :name, String.t()
+    field :order_nr, pos_integer()
+    field :selected, boolean()
+    field :update_time, NaiveDateTime.t()
+    field :url_title, String.t()
+  end
 
   def new(map) do
     struct(
