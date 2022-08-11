@@ -21,7 +21,7 @@ defmodule LineDrive.Deal do
   end
 
   defp atomize_keys(map) do
-    @keys
+    struct_keys()
     |> Enum.reduce(%{}, fn key, acc ->
       Map.put(acc, key, Map.get_lazy(map, key, fn -> Map.get(map, Atom.to_string(key), nil) end))
     end)
@@ -34,5 +34,9 @@ defmodule LineDrive.Deal do
       {:ok, date} -> date
       _ -> nil
     end
+  end
+
+  defp struct_keys do
+    @enforce_keys
   end
 end
