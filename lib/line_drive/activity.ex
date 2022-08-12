@@ -10,7 +10,7 @@ defmodule LineDrive.Activity do
 
   use TypedStruct
 
-  typedstruct enforce: true do
+  typedstruct do
     field :busy_flag, boolean()
     field :deal_id, pos_integer()
     field :done, 0 | 1
@@ -25,8 +25,8 @@ defmodule LineDrive.Activity do
     field :participants, list(ActivityParticipant.t())
     field :person_id, pos_integer()
     field :public_description, String.t()
-    field :subject, String.t()
-    field :type, ActivityType.key_string()
+    field :subject, String.t(), enforce: true
+    field :type, ActivityType.key_string(), enforce: true
     field :user_id, pos_integer()
   end
 
