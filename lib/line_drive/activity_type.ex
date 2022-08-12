@@ -3,29 +3,19 @@ defmodule LineDrive.ActivityType do
   This module and enclosed struct represent a activity type in pipedrive.
   """
 
+  use TypedStruct
+
   @type key_string :: binary()
 
-  @type t :: %__MODULE__{
-          active_flag: boolean,
-          add_time: NaiveDateTime.t() | nil,
-          id: integer,
-          is_custom_flag: boolean(),
-          key_string: key_string(),
-          name: binary(),
-          update_time: NaiveDateTime.t() | nil
-        }
-
-  @keys [
-    :active_flag,
-    :add_time,
-    :id,
-    :is_custom_flag,
-    :key_string,
-    :name,
-    :update_time
-  ]
-  @enforce_keys @keys
-  defstruct @keys
+  typedstruct enforce: true do
+    field :active_flag, boolean()
+    field :add_time, NaiveDateTime.t()
+    field :id, pos_integer()
+    field :is_custom_flag, boolean()
+    field :key_string, key_string()
+    field :name, String.t()
+    field :update_time, NaiveDateTime.t()
+  end
 
   def new(map) do
     struct(

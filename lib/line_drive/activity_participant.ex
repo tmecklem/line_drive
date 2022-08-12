@@ -3,17 +3,12 @@ defmodule LineDrive.ActivityParticipant do
   This module and enclosed struct represent a activity participant in pipedrive.
   """
 
-  @type t :: %__MODULE__{
-          person_id: integer,
-          primary_flag: boolean
-        }
+  use TypedStruct
 
-  @keys [
-    :person_id,
-    :primary_flag
-  ]
-  @enforce_keys @keys
-  defstruct @keys
+  typedstruct enforce: true do
+    field :person_id, pos_integer()
+    field :primary_flag, boolean()
+  end
 
   def new(map) do
     struct(__MODULE__, map)
