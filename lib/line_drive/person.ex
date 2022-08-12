@@ -3,19 +3,13 @@ defmodule LineDrive.Person do
   This module and enclosed struct represent a person in pipedrive.
   """
 
-  @type t :: %__MODULE__{
-          id: integer,
-          name: binary(),
-          primary_email: binary() | nil
-        }
+  use TypedStruct
 
-  @keys [
-    :id,
-    :name,
-    :primary_email
-  ]
-  @enforce_keys @keys
-  defstruct @keys
+  typedstruct enforce: true do
+    field :id, pos_integer()
+    field :name, String.t()
+    field :primary_email, String.t()
+  end
 
   def new(map) do
     struct(__MODULE__, map)
