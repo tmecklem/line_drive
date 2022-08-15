@@ -21,7 +21,7 @@ defmodule LineDrive.Activity do
     field :lead_id, pos_integer()
     field :location, String.t()
     field :note, String.t()
-    field :ord_id, pos_integer()
+    field :org_id, pos_integer()
     field :participants, list(ActivityParticipant.t())
     field :person_id, pos_integer()
     field :public_description, String.t()
