@@ -18,6 +18,8 @@ defmodule LineDrive do
   defdelegate list_pipelines(client), to: LineDrive.Pipelines
   defdelegate list_pipeline_deals(client, pipeline_id), to: LineDrive.Pipelines
 
+  defdelegate find_users_by_name(client, term, opts \\ []), to: LineDrive.Users
+
   def client(api_token, base_url) do
     middleware = [
       {Tesla.Middleware.BaseUrl, base_url},
