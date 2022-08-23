@@ -21,11 +21,13 @@ defmodule LineDrive.Incoming.PersonHandler do
     person_set = person |> MapSet.new()
     prev_person_set = previous_person |> MapSet.new()
     diff = MapSet.difference(person_set, prev_person_set)
+
     diff =
       diff
       |> MapSet.to_list()
-      |> Map.new() 
-      |> IO.inspect
-    {:updated_person, %{current: Person.new(person), previous: Person.new(previous_person), meta: meta, diff: diff}}
+      |> Map.new()
+
+    {:updated_person,
+     %{current: Person.new(person), previous: Person.new(previous_person), meta: meta, diff: diff}}
   end
 end
