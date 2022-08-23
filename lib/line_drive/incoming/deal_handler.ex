@@ -18,6 +18,16 @@ defmodule LineDrive.Incoming.DealHandler do
   end
 
   def deal_updated(%{"current" => deal, "meta" => meta, "previous" => previous_deal}) do
-    {:updated_deal, %{current: Deal.new(deal), previous: Deal.new(previous_deal), meta: meta}}
+    deal_set = MapSet.new(deal)
+    prev_deal_set = MapSet.new(previous_deal)
+
+    diff =
+      deal_set
+      |> MapSet.difference(prev_deal_set)
+      |> MapSet.to_list()
+      |> Map.new()
+
+    {:updated_deal,
+     %{current: Deal.new(deal), previous: Deal.new(previous_deal), meta: meta, diff: diff}}
   end
 end
