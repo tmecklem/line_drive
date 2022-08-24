@@ -14,6 +14,7 @@ defmodule LineDrive.Incoming.Handler do
   """
 
   use LineDrive.Incoming.DealHandler
+  use LineDrive.Incoming.PersonHandler
   use Plug.Router
 
   require Logger
