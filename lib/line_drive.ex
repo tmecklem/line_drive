@@ -22,6 +22,7 @@ defmodule LineDrive do
 
   def client(api_token, base_url) do
     base_url = process_base(base_url)
+
     middleware = [
       {Tesla.Middleware.BaseUrl, base_url},
       {Tesla.Middleware.JSON, engine: Jason, engine_opts: [keys: :atoms]},
