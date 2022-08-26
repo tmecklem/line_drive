@@ -21,6 +21,8 @@ defmodule LineDrive do
   defdelegate find_users_by_name(client, term, opts \\ []), to: LineDrive.Users
 
   def client(api_token, base_url) do
+    base_url = process_base(base_url)
+
     middleware = [
       {Tesla.Middleware.BaseUrl, base_url},
       {Tesla.Middleware.JSON, engine: Jason, engine_opts: [keys: :atoms]},
@@ -29,5 +31,13 @@ defmodule LineDrive do
     ]
 
     Tesla.client(middleware)
+  end
+
+  defp process_base(base_url) do
+    if Regex.match?(~r/^https?:\/\//i, base_url) do
+      base_url
+    else
+      "https://" <> base_url
+    end
   end
 end
