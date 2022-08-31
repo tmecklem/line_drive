@@ -48,6 +48,12 @@ defmodule LineDrive.FakePipedriveServer do
     |> handle_get_deal(conn.params)
   end
 
+  post "/api/v1/persons" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_create_person()
+  end
+
   get "/api/v1/persons/search" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
