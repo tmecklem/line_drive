@@ -13,6 +13,7 @@ defmodule LineDrive do
   defdelegate search_deals(client, term, opts), to: LineDrive.Deals
 
   defdelegate get_person(client, person_id), to: LineDrive.Persons
+  defdelegate create_person(client, person), to: LineDrive.Persons
   defdelegate search_persons(client, term, opts), to: LineDrive.Persons
 
   defdelegate list_pipelines(client), to: LineDrive.Pipelines
