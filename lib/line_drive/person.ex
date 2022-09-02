@@ -8,12 +8,13 @@ defmodule LineDrive.Person do
   typedstruct do
     field :id, pos_integer()
     field :name, String.t(), enforce: true
+    field :owner_id, pos_integer()
     field :primary_email, String.t()
   end
 
   defimpl Jason.Encoder, for: __MODULE__ do
     def encode(%{id: nil} = person, opts) do
-      Jason.Encode.value(Map.take(Map.from_struct(person), [:name]), opts)
+      Jason.Encode.value(Map.take(Map.from_struct(person), [:name, :owner_id]), opts)
     end
 
     def encode(person, opts), do: Jason.encode(person, opts)
