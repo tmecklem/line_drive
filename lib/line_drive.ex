@@ -41,4 +41,19 @@ defmodule LineDrive do
       "https://" <> base_url
     end
   end
+
+  def flatten(map) when is_map(map) do
+    map
+    |> Enum.map(&process/1)
+    |> List.flatten()
+    |> Enum.into(%{})
+  end
+
+  defp process({key, sub_map}) when is_map(sub_map) do
+    for {sub_key, value} <- flatten(sub_map) do
+      {String.to_atom("#{key}_#{sub_key}"), value}
+    end
+  end
+
+  defp process(item), do: item
 end
