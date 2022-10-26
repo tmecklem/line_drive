@@ -10,6 +10,8 @@ defmodule LineDrive.Person do
     field :name, String.t(), enforce: true
     field :owner_id, pos_integer()
     field :primary_email, String.t()
+    # search returns an organization map
+    field :organization, LineDrive.Organization.t()
   end
 
   defimpl Jason.Encoder, for: __MODULE__ do
@@ -21,6 +23,13 @@ defmodule LineDrive.Person do
   end
 
   def new(map) do
+    org =
+      map
+      |> Map.get(:organization, %{})
+      |> Kernel.||(%{})
+      |> LineDrive.Organization.new()
+
+    map = Map.put(map, :organization, org)
     struct(__MODULE__, map)
   end
 end

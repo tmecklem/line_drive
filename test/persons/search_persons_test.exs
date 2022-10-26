@@ -10,7 +10,14 @@ defmodule LineDrive.Contacts.SearchPersonsTest do
   describe "search_persons" do
     test "it forms a correct request and returns the correct data structure results for matching persons",
          %{client: client} do
-      assert {:ok, [%Person{id: 1, name: "Tim Mecklem"}]} = Persons.search_persons(client, "tim")
+      assert {:ok,
+              [
+                %Person{
+                  id: 1,
+                  name: "Tim Mecklem",
+                  organization: %{name: "Mecklem, LLC"}
+                }
+              ]} = Persons.search_persons(client, "tim")
     end
 
     # test "with invalid request it returns the error", %{
