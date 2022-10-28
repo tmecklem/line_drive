@@ -64,8 +64,8 @@ defmodule LineDrive.FakeActivityApiHandler do
         "deal_title": "Mecklem, LLC deal",
         "lead_title": null,
         "owner_name": "Tim Mecklem",
-        "person_dropbox_bcc": "launchscout-sandbox@pipedrivemail.com",
-        "deal_dropbox_bcc": "launchscout-sandbox+deal1@pipedrivemail.com",
+        "person_dropbox_bcc": "launchscoot-sandbox@pipedrivemail.com",
+        "deal_dropbox_bcc": "launchscoot-sandbox+deal1@pipedrivemail.com",
         "assigned_to_user_id": 15783886,
         "type_name": "Call",
         "lead": null
@@ -83,7 +83,7 @@ defmodule LineDrive.FakeActivityApiHandler do
             "owner_id": 15783886,
             "address": null,
             "active_flag": true,
-            "cc_email": "launchscout-sandbox@pipedrivemail.com"
+            "cc_email": "launchscoot-sandbox@pipedrivemail.com"
           }
         },
         "person": {
@@ -94,7 +94,7 @@ defmodule LineDrive.FakeActivityApiHandler do
             "email": [
               {
                 "label": "work",
-                "value": "tim@launchscout.com",
+                "value": "tim@launchscoot.com",
                 "primary": true
               }
             ],
@@ -141,7 +141,7 @@ defmodule LineDrive.FakeActivityApiHandler do
           "15783886": {
             "id": 15783886,
             "name": "Tim Mecklem",
-            "email": "tim+dev@launchscout.com",
+            "email": "tim+dev@launchscoot.com",
             "has_pic": 0,
             "pic_hash": null,
             "active_flag": true
@@ -153,5 +153,214 @@ defmodule LineDrive.FakeActivityApiHandler do
 
     conn
     |> send_resp(201, response_body)
+  end
+
+  def handle_list_activities(%{params: _params} = conn) do
+    response_body = ~s"""
+    {
+      "success": true,
+      "data": [
+        {
+          "id": 1,
+          "company_id": 11796774,
+          "user_id": 15783886,
+          "done": false,
+          "type": "meeting",
+          "reference_type": null,
+          "reference_id": null,
+          "conference_meeting_client": null,
+          "conference_meeting_url": null,
+          "due_date": "2022-07-15",
+          "due_time": "",
+          "duration": "",
+          "busy_flag": null,
+          "add_time": "2022-07-15 04:14:57",
+          "marked_as_done_time": "",
+          "last_notification_time": null,
+          "last_notification_user_id": null,
+          "notification_language_id": null,
+          "subject": "Meeting",
+          "public_description": "",
+          "calendar_sync_include_context": null,
+          "location": null,
+          "org_id": null,
+          "person_id": 3,
+          "deal_id": null,
+          "lead_id": null,
+          "project_id": null,
+          "active_flag": true,
+          "update_time": "2022-07-15 04:20:59",
+          "update_user_id": 15783886,
+          "source_timezone": null,
+          "rec_rule": null,
+          "rec_rule_extension": null,
+          "rec_master_activity_id": null,
+          "conference_meeting_id": null,
+          "original_start_time": null,
+          "note": null,
+          "created_by_user_id": 15783886,
+          "location_subpremise": null,
+          "location_street_number": null,
+          "location_route": null,
+          "location_sublocality": null,
+          "location_locality": null,
+          "location_admin_area_level_1": null,
+          "location_admin_area_level_2": null,
+          "location_country": null,
+          "location_postal_code": null,
+          "location_formatted_address": null,
+          "attendees": null,
+          "participants": [
+            {
+              "person_id": 2,
+              "primary_flag": false
+            },
+            {
+              "person_id": 3,
+              "primary_flag": true
+            }
+          ],
+          "series": null,
+          "is_recurring": null,
+          "org_name": null,
+          "person_name": "Scott Wiggins",
+          "deal_title": null,
+          "lead_title": null,
+          "project_title": null,
+          "owner_name": "Tim Mecklem",
+          "person_dropbox_bcc": "launchscoot-sandbox-tim@pipedrivemail.com",
+          "deal_dropbox_bcc": null,
+          "assigned_to_user_id": 15783886,
+          "type_name": "Meeting",
+          "lead": null
+        },
+        {
+          "id": 4,
+          "company_id": 11796774,
+          "user_id": 15783886,
+          "done": false,
+          "type": "task",
+          "reference_type": null,
+          "reference_id": null,
+          "conference_meeting_client": null,
+          "conference_meeting_url": null,
+          "due_date": "2022-07-18",
+          "due_time": "",
+          "duration": "",
+          "busy_flag": false,
+          "add_time": "2022-07-18 21:34:25",
+          "marked_as_done_time": "",
+          "last_notification_time": null,
+          "last_notification_user_id": null,
+          "notification_language_id": null,
+          "subject": "This is a test subject",
+          "public_description": "",
+          "calendar_sync_include_context": null,
+          "location": null,
+          "org_id": null,
+          "person_id": null,
+          "deal_id": null,
+          "lead_id": null,
+          "project_id": null,
+          "active_flag": true,
+          "update_time": "2022-07-18 21:34:25",
+          "update_user_id": null,
+          "source_timezone": null,
+          "rec_rule": null,
+          "rec_rule_extension": null,
+          "rec_master_activity_id": null,
+          "conference_meeting_id": null,
+          "original_start_time": null,
+          "note": null,
+          "created_by_user_id": 15783886,
+          "location_subpremise": null,
+          "location_street_number": null,
+          "location_route": null,
+          "location_sublocality": null,
+          "location_locality": null,
+          "location_admin_area_level_1": null,
+          "location_admin_area_level_2": null,
+          "location_country": null,
+          "location_postal_code": null,
+          "location_formatted_address": null,
+          "attendees": null,
+          "participants": null,
+          "series": null,
+          "is_recurring": null,
+          "org_name": null,
+          "person_name": null,
+          "deal_title": null,
+          "lead_title": null,
+          "project_title": null,
+          "owner_name": "Tim Mecklem",
+          "person_dropbox_bcc": null,
+          "deal_dropbox_bcc": null,
+          "assigned_to_user_id": 15783886,
+          "type_name": "Task",
+          "lead": null
+        }
+      ],
+      "additional_data": {
+        "pagination": {
+          "start": 0,
+          "limit": 500,
+          "more_items_in_collection": false
+        }
+      },
+      "related_objects": {
+        "user": {
+          "15783886": {
+            "id": 15783886,
+            "name": "Tim Mecklem",
+            "email": "tim+dev@launchscoot.com",
+            "has_pic": 0,
+            "pic_hash": null,
+            "active_flag": true
+          }
+        },
+        "person": {
+          "2": {
+            "id": 2,
+            "name": "Tina Marcklem",
+            "email": [
+              {
+                "label": "work",
+                "value": "tina.marklem@test.example",
+                "primary": true
+              }
+            ],
+            "phone": [
+              {
+                "value": "",
+                "primary": true
+              }
+            ],
+            "owner_id": 15783886
+          },
+          "3": {
+            "id": 3,
+            "name": "Scott Wiggins",
+            "email": [
+              {
+                "label": "work",
+                "value": "scott@launchscoot.com",
+                "primary": true
+              }
+            ],
+            "phone": [
+              {
+                "value": "",
+                "primary": true
+              }
+            ],
+            "owner_id": 15783886
+          }
+        }
+      }
+    }
+    """
+
+    conn
+    |> send_resp(200, response_body)
   end
 end

@@ -30,6 +30,12 @@ defmodule LineDrive.FakePipedriveServer do
     |> handle_add_activity()
   end
 
+  get "/api/v1/activities" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_activities()
+  end
+
   get "/api/v1/activityTypes" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
