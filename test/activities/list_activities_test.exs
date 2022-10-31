@@ -4,12 +4,18 @@ defmodule LineDrive.ActivityTypes.ListActivitiesTest do
 
   alias LineDrive.{
     Activities,
-    Activity
+    Activity,
+    Person,
+    User
   }
 
   describe "list_activities" do
     test "it forms a correct request and returns a list of activities", %{client: client} do
-      assert {:ok, [%Activity{subject: "Meeting"} | _]} = Activities.list_activities(client)
+      assert {:ok,
+              [
+                %Activity{subject: "Meeting", user: %User{id: 15_783_886}, person: %Person{id: 3}}
+                | _
+              ]} = Activities.list_activities(client)
     end
   end
 end

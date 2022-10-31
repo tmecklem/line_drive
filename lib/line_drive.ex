@@ -6,6 +6,7 @@ defmodule LineDrive do
   use Tesla
 
   defdelegate add_activity(client, activity), to: LineDrive.Activities
+  defdelegate list_activities(client, opts), to: LineDrive.Activities
 
   defdelegate list_activity_types(client), to: LineDrive.ActivityTypes
 

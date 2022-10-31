@@ -5,7 +5,9 @@ defmodule LineDrive.Activity do
 
   alias LineDrive.{
     ActivityParticipant,
-    ActivityType
+    ActivityType,
+    Person,
+    User
   }
 
   use TypedStruct
@@ -23,10 +25,12 @@ defmodule LineDrive.Activity do
     field :note, String.t()
     field :org_id, pos_integer()
     field :participants, list(ActivityParticipant.t())
+    field :person, Person.t()
     field :person_id, pos_integer()
     field :public_description, String.t()
     field :subject, String.t(), enforce: true
     field :type, ActivityType.key_string(), enforce: true
+    field :user, User.t()
     field :user_id, pos_integer()
   end
 
