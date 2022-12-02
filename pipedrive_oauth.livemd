@@ -1,0 +1,98 @@
+# Pipedrive OAuth
+
+```elixir
+Mix.install([
+  {:tesla, "~> 1.4"},
+
+  # optional, but recommended adapter
+  {:hackney, "~> 1.17"},
+
+  # optional, required by JSON middleware
+  {:jason, ">= 1.0.0"},
+  {:oauth2, "~> 2.0"}
+])
+```
+
+## Section
+
+```elixir
+defmodule PipedriveAuth do
+  @authorization_code "11796774.15820406.c2b518ca5d6b60ddc38f12d1c611a09269963bcb"
+  @client_id "b7b49878726c1955"
+  @client_secret "15b708a119d472b0f0ebf18349945b9ff5a0a15b"
+  @auth_header "Basic " <> Base.encode64(@client_id <> ":" <> @client_secret)
+
+  use Tesla
+
+  def get_auth_token() do
+    client =
+      Tesla.client([
+        {Tesla.Middleware.Headers, [{"authorization", @auth_header}]},
+        Tesla.Middleware.FormUrlencoded
+      ])
+
+    post(client, "https://oauth.pipedrive.com/oauth/token", %{
+      grant_type: "authorization_code",
+      code: @authorization_code,
+      redirect_uri: "http://lvh.me:4000/auth/pipedrive/callback"
+    })
+  end
+end
+
+# {:ok, %{body: body}} = PipedriveAuth.get_auth_token()
+```
+
+```elixir
+Jason.decode(body)
+```
+
+```elixir
+defmodule PipedriveAuth do
+  @authorization_code "11796774.15820406.060c86e4537d8239da6552bc26d374c9d187fbae"
+  @client_id "b7b49878726c1955"
+  @client_secret "15b708a119d472b0f0ebf18349945b9ff5a0a15b"
+  @auth_header "Basic " <> Base.encode64(@client_id <> ":" <> @client_secret)
+
+  use Tesla
+
+  def get_auth_token() do
+    client =
+      Tesla.client([
+        {Tesla.Middleware.Headers, [{"authorization", @auth_header}]},
+        Tesla.Middleware.FormUrlencoded
+      ])
+
+    post(client, "https://oauth.pipedrive.com/oauth/token", %{
+      grant_type: "authorization_code",
+      code: @authorization_code,
+      redirect_uri: "http://lvh.me:4000/auth/pipedrive/callback"
+    })
+  end
+
+  def refresh_auth_token(refresh_token) do
+    client =
+      Tesla.client([
+        {Tesla.Middleware.Headers, [{"authorization", @auth_header}]},
+        Tesla.Middleware.FormUrlencoded
+      ])
+
+    post(client, "https://oauth.pipedrive.com/oauth/token", %{
+      grant_type: "refresh_token",
+      refresh_token: refresh_token
+    })
+  end
+
+  def deals(access_token) do
+    client = Tesla.client([{Tesla.Middleware.BearerAuth, token: access_token}])
+    get(client, "https://launchscout-sandbox-tim.pipedrive.com/api/v1/deals")
+  end
+end
+
+access_token =
+  "LuCRcmgp6UTJNkRiInrMzoSrsf6dODMArt616K9NU9ntAEvatUzWjb7bcBFq17c1fvHCCb3zeoeUrvPef7mdW8A5vgpnBsqVa3ORccSXKbnprDDLTdFLrCcK+EOk52LmzfWbLDfd+O58EEnaBf4BINwGlkJC9ddLmYRhpfRL82ynQcbtAzcqf8rshO5jlWBy1NDogHgw96HHF6H9m+6Ae7L2JhZK81OlyLPTvmk3Uxf/Gsqb8wZNf1c9/7ECst6B177N9qWaxE323nJHV1bZ7Zp9hLb6VuxQErSK9lGHZrl2s5KX80VMILmGsPPq2aC5erS1I2hUKh0AqYoOKgJauCJp831GC/XSpQQtd/kjjnxcc21+UK+lJCQ="
+
+refresh_token = "11796774:15820406:dee16af8c99a46c226227173aaa9db62494aeb8d"
+
+# PipedriveAuth.deals(access_token)
+PipedriveAuth.refresh_auth_token(refresh_token)
+```
