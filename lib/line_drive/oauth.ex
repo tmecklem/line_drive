@@ -2,9 +2,10 @@ defmodule LineDrive.Oauth do
   use Tesla
 
   def authorization_url(client_id, redirect_url, state \\ "") do
-    url = "https://oauth.pipedrive.com/oauth/authorize?client_id=#{client_id}&redirect_uri=#{redirect_url}"
+    url =
+      "https://oauth.pipedrive.com/oauth/authorize?client_id=#{client_id}&redirect_uri=#{redirect_url}"
 
-    if state != "" do 
+    if state != "" do
       url <> "&state=" <> state
     else
       url
@@ -25,8 +26,7 @@ defmodule LineDrive.Oauth do
         redirect_uri: redirect_url
       })
 
-    %{"refresh_token" => refresh_token} =
-      Jason.decode!(resp.body)
+    %{"refresh_token" => refresh_token} = Jason.decode!(resp.body)
 
     {:ok, refresh_token}
   end

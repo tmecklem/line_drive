@@ -37,7 +37,8 @@ defmodule LineDrive do
   def build_client(refresh_token, client_id, client_secret, base_url) do
     base_url = process_base(base_url)
 
-    {:ok, access_token} = LineDrive.Oauth.refresh_access_token(refresh_token, client_id, client_secret)
+    {:ok, access_token} =
+      LineDrive.Oauth.refresh_access_token(refresh_token, client_id, client_secret)
 
     middleware = [
       {Tesla.Middleware.BaseUrl, base_url},
