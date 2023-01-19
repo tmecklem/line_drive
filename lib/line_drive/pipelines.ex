@@ -24,6 +24,9 @@ defmodule LineDrive.Pipelines do
 
         {:ok, pipelines}
 
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
+
       {:error, env} ->
         {:error, env}
     end
@@ -39,6 +42,9 @@ defmodule LineDrive.Pipelines do
           |> Enum.map(&Deal.new/1)
 
         {:ok, deals}
+
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
 
       {:error, env} ->
         {:error, env}

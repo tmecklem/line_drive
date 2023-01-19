@@ -44,10 +44,12 @@ defmodule LineDrive.Oauth do
         refresh_token: refresh_token
       })
 
-    %{"access_token" => token} = Jason.decode!(resp.body)
-
-    {:ok, token}
+    case Jason.decode!(resp.body) do
+      %{"access_token" => token} -> {:ok, token}
+      %{"success" => false, "message" => message} -> {:error, message}
+    end
   end
+
 
   defp auth_header(client_id, client_secret) do
     "Basic " <> Base.encode64(client_id <> ":" <> client_secret)
