@@ -12,11 +12,16 @@ defmodule LineDrive.Deals do
   @callback search_deals(Client.t(), binary()) :: {:ok, list(Deal.t())}
 
   def get_deal(%Client{} = client, deal_id) do
+    IO.inspect(deal_id, label: "DEAL ID")
+
     client
     |> get("/api/v1/deals/:id", opts: [path_params: [id: deal_id]])
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{data: deal_data}}} ->
         {:ok, Deal.new(deal_data)}
+
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
 
       {:error, env} ->
         {:error, env}
@@ -38,6 +43,10 @@ defmodule LineDrive.Deals do
           |> Enum.map(fn item_container -> Deal.new(item_container.item) end)
 
         {:ok, deals}
+
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} = item ->
+        IO.inspect(item)
+        {:error, message}
 
       {:error, env} ->
         {:error, env}

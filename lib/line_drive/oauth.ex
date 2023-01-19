@@ -53,10 +53,13 @@ defmodule LineDrive.Oauth do
       {:error, %{status: 401}} ->
         {:error, :refresh_token_expired}
 
+      %{"success" => false, "message" => message} -> {:error, message}
+
       error ->
         error
     end
   end
+
 
   defp auth_header(client_id, client_secret) do
     "Basic " <> Base.encode64(client_id <> ":" <> client_secret)

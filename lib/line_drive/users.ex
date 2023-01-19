@@ -23,6 +23,9 @@ defmodule LineDrive.Users do
 
         {:ok, users}
 
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
+
       {:error, env} ->
         {:error, env}
     end
