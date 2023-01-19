@@ -38,15 +38,21 @@ defmodule LineDrive.Oauth do
         Tesla.Middleware.FormUrlencoded
       ])
 
-    {:ok, resp} =
-      post(client, "https://oauth.pipedrive.com/oauth/token", %{
-        grant_type: "refresh_token",
-        refresh_token: refresh_token
-      })
+    with {:ok, resp} <-
+           post(client, "https://oauth.pipedrive.com/oauth/token", %{
+             grant_type: "refresh_token",
+             refresh_token: refresh_token
+           }),
+         %{"access_token" => token} <- Jason.decode!(resp.body) do
+      {:ok, token}
+    else
+      {:error, %{status: 401}} ->
+        {:error, :refresh_token_expired}
 
-    case Jason.decode!(resp.body) do
-      %{"access_token" => token} -> {:ok, token}
       %{"success" => false, "message" => message} -> {:error, message}
+    
+      error ->
+        error
     end
   end
 
