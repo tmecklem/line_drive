@@ -1,4 +1,8 @@
 defmodule LineDrive.Oauth do
+  @moduledoc """
+  This module contains functions for authorizing with Pipedrive's OAuth server.
+  """
+
   use Tesla
 
   def authorization_url(client_id, redirect_url, state \\ "") do
