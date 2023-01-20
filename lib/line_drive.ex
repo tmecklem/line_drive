@@ -52,7 +52,7 @@ defmodule LineDrive do
         {:error, error}
     end
   end
-  
+
   defp process_base(base_url) do
     if Regex.match?(~r/^https?:\/\//i, base_url) do
       base_url
