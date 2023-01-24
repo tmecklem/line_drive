@@ -24,35 +24,35 @@ defmodule LineDrive.Leads do
     end
   end
 
-  # def create_lead(%Client{} = client, %Lead{id: nil} = lead) do
-  #   client
-  #   |> post("/api/v1/leads", lead)
-  #   |> case do
-  #     {:ok, %Tesla.Env{status: 201, body: %{data: lead_data}}} ->
-  #       {:ok, Lead.new(lead_data)}
+  def create_lead(%Client{} = client, %Lead{id: nil} = lead) do
+    client
+    |> post("/api/v1/leads", lead)
+    |> case do
+      {:ok, %Tesla.Env{status: 201, body: %{data: lead_data}}} ->
+        {:ok, Lead.new(lead_data)}
 
-  #     {:error, env} ->
-  #       {:error, env}
-  #   end
-  # end
+      {:error, env} ->
+        {:error, env}
+    end
+  end
 
-  # def search_leads(%Client{} = client, term, opts \\ []) do
-  #   start = Keyword.get(opts, :start, 0)
-  #   limit = Keyword.get(opts, :limit, 50)
+  def search_leads(%Client{} = client, term, opts \\ []) do
+    start = Keyword.get(opts, :start, 0)
+    limit = Keyword.get(opts, :limit, 50)
 
-  #   client
-  #   |> get("/api/v1/leads/search", query: [term: term, start: start, limit: limit])
-  #   |> case do
-  #     {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
-  #       leads =
-  #         data
-  #         |> Map.get(:items)
-  #         |> Enum.map(fn item_container -> Lead.new(item_container.item) end)
+    client
+    |> get("/api/v1/leads/search", query: [term: term, start: start, limit: limit])
+    |> case do
+      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
+        leads =
+          data
+          |> Map.get(:items)
+          |> Enum.map(fn item_container -> Lead.new(item_container.item) end)
 
-  #       {:ok, leads}
+        {:ok, leads}
 
-  #     {:error, env} ->
-  #       {:error, env}
-  #   end
-  # end
+      {:error, env} ->
+        {:error, env}
+    end
+  end
 end

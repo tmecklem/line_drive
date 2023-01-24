@@ -10,9 +10,15 @@ defmodule LineDrive.Lead do
     field :id, String.t()
     field :title, String.t()
     field :person_id, pos_integer()
-    field :organization_id, pos_integer()
     field :amount, float()
-    field :currency, String.t()
+  end
+
+  defimpl Jason.Encoder, for: __MODULE__ do
+    def encode(%{id: nil} = lead, opts) do
+      Jason.Encode.value(Map.take(Map.from_struct(lead), [:title, :id, :person_id, :amount, :expected_close_date]), opts)
+    end
+
+    def encode(lead, opts), do: Jason.encode(lead, opts)
   end
 
   def new(map) do
