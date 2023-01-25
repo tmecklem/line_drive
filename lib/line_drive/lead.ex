@@ -15,7 +15,10 @@ defmodule LineDrive.Lead do
 
   defimpl Jason.Encoder, for: __MODULE__ do
     def encode(%{id: nil} = lead, opts) do
-      Jason.Encode.value(Map.take(Map.from_struct(lead), [:title, :id, :person_id, :amount, :expected_close_date]), opts)
+      Jason.Encode.value(
+        Map.take(Map.from_struct(lead), [:title, :id, :person_id, :amount, :expected_close_date]),
+        opts
+      )
     end
 
     def encode(lead, opts), do: Jason.encode(lead, opts)
@@ -23,9 +26,9 @@ defmodule LineDrive.Lead do
 
   def new(map) do
     struct(
-        __MODULE__, 
-        map
-        |> Map.put(:expected_close_date, maybe_parse_expected_close_date(map))
+      __MODULE__,
+      map
+      |> Map.put(:expected_close_date, maybe_parse_expected_close_date(map))
     )
   end
 

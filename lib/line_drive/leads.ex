@@ -8,7 +8,7 @@ defmodule LineDrive.Leads do
   alias LineDrive.Lead
   alias Tesla.Client
 
-  @callback get_lead(Client.t(), String.t) :: {:ok, Lead.t()}
+  @callback get_lead(Client.t(), String.t()) :: {:ok, Lead.t()}
   @callback search_leads(Client.t(), binary()) :: {:ok, list(Lead.t())}
   # @callback create_lead(Client.t(), Lead.t()) :: {:ok, Lead.t()}
 

@@ -97,7 +97,7 @@ defmodule LineDrive.FakePipedriveServer do
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_list_pipelines()
   end
-  
+
   post "/api/v1/leads" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
