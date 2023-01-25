@@ -34,6 +34,25 @@ defmodule LineDrive do
     Tesla.client(middleware)
   end
 
+  def build_client(refresh_token, client_id, client_secret, base_url) do
+    base_url = process_base(base_url)
+
+    case LineDrive.Oauth.refresh_access_token(refresh_token, client_id, client_secret) do
+      {:ok, access_token} ->
+        middleware = [
+          {Tesla.Middleware.BaseUrl, base_url},
+          {Tesla.Middleware.BearerAuth, token: access_token},
+          {Tesla.Middleware.JSON, engine: Jason, engine_opts: [keys: :atoms]},
+          Tesla.Middleware.PathParams
+        ]
+
+        {:ok, Tesla.client(middleware)}
+
+      {:error, error} ->
+        {:error, error}
+    end
+  end
+
   defp process_base(base_url) do
     if Regex.match?(~r/^https?:\/\//i, base_url) do
       base_url
