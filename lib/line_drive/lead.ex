@@ -5,12 +5,12 @@ defmodule LineDrive.Lead do
 
   use TypedStruct
 
-  typedstruct enforce: true do
+  typedstruct do
     field :expected_close_date, Date.t()
     field :id, String.t()
-    field :title, String.t()
+    field :title, String.t(), enforce: true
     field :person_id, pos_integer()
-    field :amount, float()
+    field :value, float()
   end
 
   defimpl Jason.Encoder, for: __MODULE__ do
@@ -23,27 +23,22 @@ defmodule LineDrive.Lead do
 
   def new(map) do
     struct(
-      __MODULE__, 
-      Map.update(atomize_keys(map), :expected_close_date, nil, &parse_date/1))
+        __MODULE__, 
+        map
+        |> Map.put(:expected_close_date, maybe_parse_expected_close_date(map))
+    )
   end
 
-  defp atomize_keys(map) do
-    struct_keys()
-    |> Enum.reduce(%{}, fn key, acc ->
-      Map.put(acc, key, Map.get_lazy(map, key, fn -> Map.get(map, Atom.to_string(key), nil) end))
-    end)
-  end
+  defp maybe_parse_expected_close_date(%{expected_close_date: nil}), do: nil
 
-  defp parse_date(nil), do: nil
+  defp maybe_parse_expected_close_date(%{expected_close_date: %Date{} = date}), do: date
 
-  defp parse_date(date_str) do
+  defp maybe_parse_expected_close_date(%{expected_close_date: date_str}) do
     case Date.from_iso8601(date_str) do
       {:ok, date} -> date
       _ -> nil
     end
   end
 
-  defp struct_keys do
-    @enforce_keys
-  end
+  defp maybe_parse_expected_close_date(_), do: nil
 end

@@ -63,7 +63,7 @@ defmodule LineDrive.FakeLeadApiHandler do
               "amount": 150000,
               "currency": "USD"
           },
-          "expected_close_date": null,
+          "expected_close_date": "2023-03-01",
           "person_id": 7,
           "organization_id": null,
           "is_archived": false,
