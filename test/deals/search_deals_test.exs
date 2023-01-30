@@ -1,4 +1,4 @@
-defmodule LineDrive.Contacts.SearchDealsTest do
+defmodule LineDrive.Deals.SearchDealsTest do
   @moduledoc false
   use LineDrive.PipedriveClientCase
 
