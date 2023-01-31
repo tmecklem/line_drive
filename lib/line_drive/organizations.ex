@@ -19,6 +19,9 @@ defmodule LineDrive.Organizations do
       {:ok, %Tesla.Env{status: 200, body: %{data: org_data}}} ->
         {:ok, Organization.new(org_data)}
 
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
+
       {:error, env} ->
         {:error, env}
     end
@@ -30,6 +33,9 @@ defmodule LineDrive.Organizations do
     |> case do
       {:ok, %Tesla.Env{status: 201, body: %{data: org_data}}} ->
         {:ok, Organization.new(org_data)}
+
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
 
       {:error, env} ->
         {:error, env}
@@ -50,6 +56,9 @@ defmodule LineDrive.Organizations do
           |> Enum.map(fn item_container -> Organization.new(item_container.item) end)
 
         {:ok, organizations}
+
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
 
       {:error, env} ->
         {:error, env}
