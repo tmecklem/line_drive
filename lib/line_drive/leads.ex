@@ -8,15 +8,15 @@ defmodule LineDrive.Leads do
   alias LineDrive.Lead
   alias Tesla.Client
 
+  @callback create_lead(Client.t(), Lead.t()) :: {:ok, Lead.t()}
   @callback get_lead(Client.t(), String.t()) :: {:ok, Lead.t()}
   @callback search_leads(Client.t(), binary()) :: {:ok, list(Lead.t())}
-  @callback create_lead(Client.t(), Lead.t()) :: {:ok, Lead.t()}
 
-  def get_lead(%Client{} = client, lead_id) do
+  def create_lead(%Client{} = client, %Lead{id: nil} = lead) do
     client
-    |> get("/api/v1/leads/:id", opts: [path_params: [id: lead_id]])
+    |> post("/api/v1/leads", lead)
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{data: lead_data}}} ->
+      {:ok, %Tesla.Env{status: 201, body: %{data: lead_data}}} ->
         {:ok, Lead.new(lead_data)}
 
       {:error, env} ->
@@ -24,11 +24,11 @@ defmodule LineDrive.Leads do
     end
   end
 
-  def create_lead(%Client{} = client, %Lead{id: nil} = lead) do
+  def get_lead(%Client{} = client, lead_id) do
     client
-    |> post("/api/v1/leads", lead)
+    |> get("/api/v1/leads/:id", opts: [path_params: [id: lead_id]])
     |> case do
-      {:ok, %Tesla.Env{status: 201, body: %{data: lead_data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{data: lead_data}}} ->
         {:ok, Lead.new(lead_data)}
 
       {:error, env} ->
