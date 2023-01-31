@@ -2,24 +2,16 @@ defmodule LineDrive.Lead do
   @moduledoc """
   This module and enclosed structs represent a lead in pipedrive.
   """
-  defmodule Value do
-    use TypedStruct
-
-    typedstruct do
-      field :amount, float()
-      field :currency, String.t()
-    end
-  end
 
   use TypedStruct
 
-  alias LineDrive.Lead.Value
+  alias LineDrive.LeadValue
 
   typedstruct do
     field :expected_close_date, Date.t()
     field :person_id, pos_integer()
     field :title, String.t(), enforce: true
-    field :value, Value
+    field :value, LeadValue
     field :id, String.t()
   end
 
