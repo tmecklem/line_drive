@@ -12,6 +12,8 @@ defmodule LineDrive.Person do
     field :primary_email, String.t()
     # search returns an organization map
     field :organization, LineDrive.Organization.t()
+    field :org_name, String.t()
+    field :org_id, pos_integer()
   end
 
   defimpl Jason.Encoder, for: __MODULE__ do
