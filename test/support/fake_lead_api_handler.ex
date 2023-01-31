@@ -82,7 +82,7 @@ defmodule LineDrive.FakeLeadApiHandler do
     |> send_resp(200, response_body)
   end
 
-  def handle_create_lead(%{body_params: %{"title" => title}} = conn) do
+  def handle_create_lead(%{body_params: %{"title" => "Farkel Deal Lead"}} = conn) do
     response_body = ~s"""
     {
       "success": true,
