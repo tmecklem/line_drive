@@ -19,6 +19,9 @@ defmodule LineDrive.Leads do
       {:ok, %Tesla.Env{status: 201, body: %{data: lead_data}}} ->
         {:ok, Lead.new(lead_data)}
 
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
+
       {:error, env} ->
         {:error, env}
     end
@@ -30,6 +33,9 @@ defmodule LineDrive.Leads do
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{data: lead_data}}} ->
         {:ok, Lead.new(lead_data)}
+
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
 
       {:error, env} ->
         {:error, env}
@@ -50,6 +56,9 @@ defmodule LineDrive.Leads do
           |> Enum.map(fn item_container -> Lead.new(item_container.item) end)
 
         {:ok, leads}
+
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
 
       {:error, env} ->
         {:error, env}
