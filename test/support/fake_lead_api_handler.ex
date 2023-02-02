@@ -22,7 +22,10 @@ defmodule LineDrive.FakeLeadApiHandler do
                           "id": 7,
                           "name": "Steve Farkel"
                       },
-                      "organization": null,
+                      "organization": {
+                        "id": 1,
+                        "name": "Mecklem, LLC"
+                      },
                       "phones": [],
                       "emails": [],
                       "custom_fields": [],
@@ -65,7 +68,7 @@ defmodule LineDrive.FakeLeadApiHandler do
           },
           "expected_close_date": "2023-03-01",
           "person_id": 7,
-          "organization_id": null,
+          "organization_id": 1,
           "is_archived": false,
           "source_name": "API",
           "was_seen": false,
@@ -98,7 +101,7 @@ defmodule LineDrive.FakeLeadApiHandler do
           },
           "expected_close_date": "2023-03-01",
           "person_id": 7,
-          "organization_id": null,
+          "organization_id": 1,
           "is_archived": false,
           "source_name": "API",
           "was_seen": false,
