@@ -14,8 +14,9 @@ defmodule LineDrive.Leads.SearchLeadsTest do
               [
                 %Lead{
                   id: "d8648e28-debe-45c8-9725-4e742bfbf2c4",
-                  title: "Farkel Deal Leadz",
+                  title: "Farkel Deal Lead",
                   person: %{id: 7, name: "Steve Farkel"},
+                  organization: %{id: 1, name: "Mecklem, LLC"},
                   value: 150_000
                 }
               ]} = Leads.search_leads(client, "farkel")
