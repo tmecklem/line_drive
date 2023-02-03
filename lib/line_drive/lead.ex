@@ -5,11 +5,14 @@ defmodule LineDrive.Lead do
 
   use TypedStruct
 
-  alias LineDrive.LeadValue
+  alias LineDrive.{LeadOrganization, LeadPerson, LeadValue}
 
   typedstruct do
     field :expected_close_date, Date.t()
     field :person_id, pos_integer()
+    field :person, LeadPerson
+    field :organization_id, pos_integer()
+    field :organization, LeadOrganization
     field :title, String.t(), enforce: true
     field :value, LeadValue
     field :id, String.t()
@@ -21,6 +24,7 @@ defmodule LineDrive.Lead do
         Map.take(Map.from_struct(lead), [
           :title,
           :person_id,
+          :organization_id,
           :value,
           :expected_close_date
         ]),
