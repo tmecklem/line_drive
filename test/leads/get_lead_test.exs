@@ -14,6 +14,8 @@ defmodule LineDrive.Leads.GetLeadTest do
               %Lead{
                 id: "d8648e28-debe-45c8-9725-4e742bfbf2c4",
                 title: "Farkel Deal Lead",
+                person_id: 7,
+                organization_id: 1,
                 value: %{amount: 150_000, currency: "USD"},
                 expected_close_date: ~D[2023-03-01]
               }} = Leads.get_lead(client, "d8648e28-debe-45c8-9725-4e742bfbf2c4")
