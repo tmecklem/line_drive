@@ -42,7 +42,7 @@ defmodule LineDrive.Deals do
 
         {:ok, deals}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} = item ->
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
         {:error, message}
 
       {:error, env} ->
