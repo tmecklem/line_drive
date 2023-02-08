@@ -1,6 +1,6 @@
 defmodule LineDrive.Organizations.GetOrganizationTest do
   @moduledoc false
-  use ExUnit.Case, async: true
+  use LineDrive.PipedriveClientCase
 
   alias LineDrive.{
     FakePipedriveServer,
