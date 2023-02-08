@@ -25,6 +25,10 @@ defmodule LineDrive do
 
   defdelegate find_users_by_name(client, term, opts \\ []), to: LineDrive.Users
 
+  defdelegate get_lead(client, lead_id), to: LineDrive.Leads
+  defdelegate search_leads(client, term, opts), to: LineDrive.Leads
+  defdelegate create_lead(client, lead), to: LineDrive.Leads
+
   def client(api_token, base_url) do
     base_url = process_base(base_url)
 
