@@ -22,6 +22,7 @@ defmodule LineDrive.Activity do
     field :location, String.t()
     field :note, String.t()
     field :org_id, pos_integer()
+    field :org_name, String.t()
     field :participants, list(ActivityParticipant.t())
     field :person_id, pos_integer()
     field :public_description, String.t()
@@ -32,7 +33,11 @@ defmodule LineDrive.Activity do
 
   defimpl Jason.Encoder, for: __MODULE__ do
     def encode(%{id: nil} = activity, opts) do
-      Jason.Encode.value(Map.delete(Map.from_struct(activity), :id), opts)
+      activity
+      |> Map.from_struct()
+      |> Map.delete(:id)
+      |> Map.delete(:org_name)
+      |> Jason.Encode.value(opts)
     end
 
     def encode(activity, opts), do: Jason.encode(activity, opts)

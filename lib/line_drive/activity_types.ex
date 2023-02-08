@@ -21,6 +21,9 @@ defmodule LineDrive.ActivityTypes do
 
         {:ok, activity_types}
 
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
+
       {:error, env} ->
         {:error, env}
     end

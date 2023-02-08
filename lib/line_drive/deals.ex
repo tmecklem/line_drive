@@ -18,6 +18,9 @@ defmodule LineDrive.Deals do
       {:ok, %Tesla.Env{status: 200, body: %{data: deal_data}}} ->
         {:ok, Deal.new(deal_data)}
 
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
+
       {:error, env} ->
         {:error, env}
     end
@@ -38,6 +41,9 @@ defmodule LineDrive.Deals do
           |> Enum.map(fn item_container -> Deal.new(item_container.item) end)
 
         {:ok, deals}
+
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
 
       {:error, env} ->
         {:error, env}

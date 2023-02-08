@@ -17,6 +17,9 @@ defmodule LineDrive.Activities do
       {:ok, %Tesla.Env{status: 201, body: %{data: activity_data}}} ->
         {:ok, Activity.new(activity_data)}
 
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
+
       {:error, env} ->
         {:error, env}
     end

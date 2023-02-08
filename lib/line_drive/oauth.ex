@@ -53,6 +53,9 @@ defmodule LineDrive.Oauth do
       {:error, %{status: 401}} ->
         {:error, :refresh_token_expired}
 
+      %{"success" => false, "message" => message} ->
+        {:error, message}
+
       error ->
         error
     end
