@@ -10,6 +10,7 @@ defmodule LineDrive.FakePipedriveServer do
     FakeActivityApiHandler,
     FakeActivityTypeApiHandler,
     FakeDealApiHandler,
+    FakeNoteApiHandler,
     FakeOrganizationApiHandler,
     FakeLeadApiHandler,
     FakePersonApiHandler,
@@ -48,6 +49,12 @@ defmodule LineDrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_get_deal(conn.params)
+  end
+
+  post "/api/v1/notes" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_add_note()
   end
 
   get "/api/v1/organizations/search" do
