@@ -3,8 +3,8 @@ defmodule LineDrive.Notes.AddNoteTest do
   use LineDrive.PipedriveClientCase, async: false
 
   alias LineDrive.{
-    Notes,
-    Note
+    Note,
+    Notes
   }
 
   describe "add_note" do
