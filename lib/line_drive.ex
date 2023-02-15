@@ -12,6 +12,8 @@ defmodule LineDrive do
   defdelegate get_deal(client, deal_id), to: LineDrive.Deals
   defdelegate search_deals(client, term, opts), to: LineDrive.Deals
 
+  defdelegate add_note(client, note), to: LineDrive.Notes
+
   defdelegate get_organization(client, org_id), to: LineDrive.Organizations
   defdelegate search_organizations(client, term, opts), to: LineDrive.Organizations
   defdelegate create_organization(client, org), to: LineDrive.Organizations
