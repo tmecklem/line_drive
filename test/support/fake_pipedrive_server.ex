@@ -57,6 +57,12 @@ defmodule LineDrive.FakePipedriveServer do
     |> handle_add_note()
   end
 
+  get "/api/v1/notes" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_all_org_notes(conn.query_params)
+  end
+
   get "/api/v1/organizations/search" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
