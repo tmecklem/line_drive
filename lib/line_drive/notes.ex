@@ -5,7 +5,6 @@ defmodule LineDrive.Notes do
 
   use Tesla
 
-  alias Hex.API.Key
   alias LineDrive.Note
   alias Tesla.Client
 
