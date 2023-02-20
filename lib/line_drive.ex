@@ -19,6 +19,8 @@ defmodule LineDrive do
   defdelegate add_note(client, note), to: LineDrive.Notes
   defdelegate get_all_org_notes(client, org_id, opts), to: LineDrive.Notes
 
+  defdelegate get_org_field_keys_and_names(client, opts), to: LineDrive.OrganizationFields
+
   defdelegate get_organization(client, org_id), to: LineDrive.Organizations
   defdelegate search_organizations(client, term, opts), to: LineDrive.Organizations
   defdelegate create_organization(client, org), to: LineDrive.Organizations
