@@ -20,8 +20,11 @@ defmodule LineDrive.OrganizationFields do
       {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
         org_fields =
           data
-          |> Enum.map(fn item -> Map.take(item, [:key, :name]) end)
-          |> Enum.map(fn item -> OrganizationField.new(item) end)
+          |> Enum.map(fn item ->
+            item
+            |> Map.take([:key, :name])
+            |> OrganizationField.new()
+          end)
 
         {:ok, org_fields}
 
