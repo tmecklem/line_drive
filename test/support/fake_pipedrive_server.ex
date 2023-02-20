@@ -11,6 +11,7 @@ defmodule LineDrive.FakePipedriveServer do
     FakeActivityTypeApiHandler,
     FakeDealApiHandler,
     FakeNoteApiHandler,
+    FakeOrganizationFieldApiHandler,
     FakeOrganizationApiHandler,
     FakeLeadApiHandler,
     FakePersonApiHandler,
@@ -61,6 +62,12 @@ defmodule LineDrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_get_all_org_notes(conn.query_params)
+  end
+
+  get "/api/v1/organizationFields/" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_get_org_field_keys_and_names(conn.params)
   end
 
   get "/api/v1/organizations/search" do
