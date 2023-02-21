@@ -11,6 +11,7 @@ defmodule LineDrive.Organizations do
   @callback get_organization(Client.t(), integer) :: {:ok, Organization.t()}
   @callback create_organization(Client.t(), binary()) :: {:ok, Organization.t()}
   @callback search_organizations(Client.t(), binary()) :: {:ok, list(Organization.t())}
+  @callback update_organization(Client.t(), integer, binary()) :: {:ok, Organization.t()}
 
   def get_organization(%Client{} = client, org_id) do
     client
@@ -56,6 +57,21 @@ defmodule LineDrive.Organizations do
           |> Enum.map(fn item_container -> Organization.new(item_container.item) end)
 
         {:ok, organizations}
+
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
+
+      {:error, env} ->
+        {:error, env}
+    end
+  end
+
+  def update_organization(%Client{} = client, org_id, body) do
+    client
+    |> put("/api/v1/organizations/#{org_id}", body)
+    |> case do
+      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
+        {:ok, Organization.new(data)}
 
       {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
         {:error, message}
