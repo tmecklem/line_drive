@@ -181,6 +181,90 @@ defmodule LineDrive.FakeOrganizationApiHandler do
     |> send_resp(201, response_body)
   end
 
+  def handle_update_organization(
+        %{body_params: %{"93fc28f7d5aee87fc6484441cab648760a6c0d2d" => _value}} = conn
+      ) do
+    response_body = ~s"""
+    {
+        "success": true,
+        "data": {
+            "id": 5,
+            "company_id": 123,
+            "owner_id": {
+                "id": 123,
+                "name": "Person",
+                "email": "person@launchscout.com",
+                "has_pic": 0,
+                "pic_hash": null,
+                "active_flag": true,
+                "value": 17120881
+            },
+            "name": "Org",
+            "open_deals_count": 0,
+            "related_open_deals_count": 0,
+            "closed_deals_count": 0,
+            "related_closed_deals_count": 0,
+            "email_messages_count": 0,
+            "people_count": 0,
+            "activities_count": 0,
+            "done_activities_count": 0,
+            "undone_activities_count": 0,
+            "files_count": 0,
+            "notes_count": 0,
+            "followers_count": 1,
+            "won_deals_count": 0,
+            "related_won_deals_count": 0,
+            "lost_deals_count": 0,
+            "related_lost_deals_count": 0,
+            "active_flag": true,
+            "category_id": null,
+            "picture_id": null,
+            "country_code": null,
+            "first_char": "s",
+            "update_time": "2023-02-20 20:23:09",
+            "delete_time": null,
+            "add_time": "2023-02-15 16:20:48",
+            "visible_to": "3",
+            "next_activity_date": null,
+            "next_activity_time": null,
+            "next_activity_id": null,
+            "last_activity_id": null,
+            "last_activity_date": null,
+            "label": null,
+            "address": null,
+            "address_subpremise": null,
+            "address_street_number": null,
+            "address_route": null,
+            "address_sublocality": null,
+            "address_locality": null,
+            "address_admin_area_level_1": null,
+            "address_admin_area_level_2": null,
+            "address_country": null,
+            "address_postal_code": null,
+            "address_formatted_address": null,
+            "cc_email": "launchscout-sandbox@pipedrivemail.com",
+            "74297017034377900b80ebbeb37c7c45921b278f": "20",
+            "93fc28f7d5aee87fc6484441cab648760a6c0d2d": "Elixir"
+        },
+        "related_objects": {
+            "user": {
+                "123": {
+                    "id": 123,
+                    "name": "Person",
+                    "email": "person@launchscout.com",
+                    "has_pic": 0,
+                    "pic_hash": null,
+                    "active_flag": true
+                }
+            }
+        }
+    }
+    """
+
+    conn
+    |> send_resp(200, response_body)
+  end
+
   def handle_search_organizations(conn, %{"term" => _term}) do
     response_body = ~s"""
     {

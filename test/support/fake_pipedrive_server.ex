@@ -82,6 +82,12 @@ defmodule LineDrive.FakePipedriveServer do
     |> handle_get_organization(conn.params)
   end
 
+  put "/api/v1/organizations/:id" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_update_organization()
+  end
+
   post "/api/v1/organizations" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
