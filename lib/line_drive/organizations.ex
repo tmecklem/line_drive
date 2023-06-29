@@ -43,6 +43,28 @@ defmodule LineDrive.Organizations do
     end
   end
 
+  def list_organizations(%Client{} = client, opts \\ []) do
+    start = Keyword.get(opts, :start, 0)
+    limit = Keyword.get(opts, :limit, 50)
+
+    client
+    |> get("/api/v1/organizations", query: [start: start, limit: limit])
+    |> case do
+      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
+        organizations =
+          data
+          |> Enum.map(fn organization -> Organization.new(organization) end)
+
+        {:ok, organizations}
+
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
+
+      {:error, env} ->
+        {:error, env}
+    end
+  end
+
   def search_organizations(%Client{} = client, term, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)

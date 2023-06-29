@@ -70,6 +70,12 @@ defmodule LineDrive.FakePipedriveServer do
     |> handle_get_org_field_keys_and_names(conn.params)
   end
 
+  get "/api/v1/organizations" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_organizations(conn.query_params)
+  end
+
   get "/api/v1/organizations/search" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
