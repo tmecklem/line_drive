@@ -14,6 +14,7 @@ defmodule LineDrive.Organizations do
 
   @callback get_organization(Client.t(), integer) :: {:ok, Organization.t()}
   @callback create_organization(Client.t(), binary()) :: {:ok, Organization.t()}
+  @callback list_organizations(Client.t(), [any()]) :: {:ok, PagedResult.t()}
   @callback search_organizations(Client.t(), binary()) :: {:ok, list(Organization.t())}
   @callback update_organization(Client.t(), integer, binary()) :: {:ok, Organization.t()}
 

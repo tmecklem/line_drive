@@ -41,7 +41,7 @@ defmodule LineDrive.Organization do
     field :next_activity_id, non_neg_integer()
     field :last_activity_id, non_neg_integer()
     field :last_activity_date, Date.t()
-    field :label, String.t()
+    field :label, integer()
     field :address, String.t()
     field :address_subpremise, String.t()
     field :address_street_number, String.t()
