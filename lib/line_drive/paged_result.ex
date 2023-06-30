@@ -14,16 +14,18 @@ defmodule LineDrive.PagedResult do
     field :related_objects, map()
   end
 
-  def new(data, %{
-        success: success,
-        additional_data: additional_data,
-        related_objects: related_objects
-      }) do
+  def new(
+        data,
+        %{
+          success: success,
+          additional_data: additional_data
+        } = metadata
+      ) do
     %__MODULE__{
       success: success,
       data: data,
       additional_data: AdditionalData.new(additional_data),
-      related_objects: related_objects
+      related_objects: Map.get(metadata, :related_objects, [])
     }
   end
 end

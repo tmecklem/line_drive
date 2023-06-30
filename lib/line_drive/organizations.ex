@@ -55,6 +55,9 @@ defmodule LineDrive.Organizations do
     client
     |> get("/api/v1/organizations", query: [start: start, limit: limit])
     |> case do
+      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: nil} = body}} ->
+        {:ok, PagedResult.new([], body)}
+
       {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data} = body}} ->
         organizations =
           data
