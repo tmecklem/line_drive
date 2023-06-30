@@ -265,6 +265,157 @@ defmodule LineDrive.FakeOrganizationApiHandler do
     |> send_resp(200, response_body)
   end
 
+  def handle_list_organizations(conn, _) do
+    response_body = ~s"""
+      {
+        "success": true,
+        "data": [
+          {
+            "id": 1,
+            "company_id": 23434234,
+            "owner_id": {
+              "id": 243543625,
+              "name": "Batman",
+              "email": "batman@example",
+              "has_pic": 0,
+              "pic_hash": null,
+              "active_flag": true,
+              "value": 44536
+            },
+            "name": "ACME Co",
+            "open_deals_count": 3,
+            "related_open_deals_count": 0,
+            "closed_deals_count": 0,
+            "related_closed_deals_count": 0,
+            "email_messages_count": 0,
+            "people_count": 1,
+            "activities_count": 10,
+            "done_activities_count": 10,
+            "undone_activities_count": 0,
+            "files_count": 0,
+            "notes_count": 3,
+            "followers_count": 1,
+            "won_deals_count": 0,
+            "related_won_deals_count": 0,
+            "lost_deals_count": 0,
+            "related_lost_deals_count": 0,
+            "active_flag": true,
+            "category_id": null,
+            "picture_id": null,
+            "country_code": null,
+            "first_char": "m",
+            "update_time": "2023-02-24 20:55:35",
+            "delete_time": null,
+            "add_time": "2022-07-09 15:16:26",
+            "visible_to": "3",
+            "next_activity_date": "2024-05-06",
+            "next_activity_time": "11:22:33",
+            "next_activity_id": null,
+            "last_activity_id": 2,
+            "last_activity_date": "2030-10-01",
+            "label": null,
+            "address": null,
+            "address_subpremise": null,
+            "address_street_number": null,
+            "address_route": null,
+            "address_sublocality": null,
+            "address_locality": null,
+            "address_admin_area_level_1": null,
+            "address_admin_area_level_2": null,
+            "address_country": null,
+            "address_postal_code": null,
+            "address_formatted_address": null,
+            "owner_name": "Batman",
+            "3671213bcab78a65d5c676ac224b05b6290": "TagOfSomeKind",
+            "cc_email": "checkitout@pipedrivemail.com"
+          },
+          {
+            "id": 2,
+            "company_id": 34346345,
+            "owner_id": {
+              "id": 43634534,
+              "name": "Robin",
+              "email": "robin@example",
+              "has_pic": 0,
+              "pic_hash": null,
+              "active_flag": true,
+              "value": 46345564
+            },
+            "name": "Wayne Enterprises",
+            "open_deals_count": 0,
+            "related_open_deals_count": 0,
+            "closed_deals_count": 0,
+            "related_closed_deals_count": 0,
+            "email_messages_count": 0,
+            "people_count": 1,
+            "activities_count": 0,
+            "done_activities_count": 0,
+            "undone_activities_count": 0,
+            "files_count": 0,
+            "notes_count": 2,
+            "followers_count": 1,
+            "won_deals_count": 0,
+            "related_won_deals_count": 0,
+            "lost_deals_count": 0,
+            "related_lost_deals_count": 0,
+            "active_flag": true,
+            "category_id": null,
+            "picture_id": null,
+            "country_code": null,
+            "first_char": "l",
+            "update_time": "2023-03-06 18:23:59",
+            "delete_time": null,
+            "add_time": "2022-08-11 15:44:35",
+            "visible_to": "3",
+            "next_activity_date": null,
+            "next_activity_time": null,
+            "next_activity_id": null,
+            "last_activity_id": null,
+            "last_activity_date": null,
+            "label": null,
+            "address": null,
+            "address_subpremise": null,
+            "address_street_number": null,
+            "address_route": null,
+            "address_sublocality": null,
+            "address_locality": null,
+            "address_admin_area_level_1": null,
+            "address_admin_area_level_2": null,
+            "address_country": null,
+            "address_postal_code": null,
+            "address_formatted_address": null,
+            "owner_name": "Robin",
+            "3671213bcab78a65d5c676ac224b05b6290": "Some, Other, Tags",
+            "cc_email": "checkitout@pipedrivemail.com"
+          }
+        ],
+        "additional_data": {
+          "pagination": {
+            "start": 0,
+            "limit": 2,
+            "more_items_in_collection": true,
+            "next_start": 2
+          }
+        },
+        "related_objects": {
+          "user": {
+            "243543625": {
+              "id": 243543625,
+              "name": "Batman",
+              "email": "batman@example",
+              "has_pic": 0,
+              "pic_hash": null,
+              "active_flag": true
+            }
+          }
+        }
+      }
+    """
+
+    conn
+    |> send_resp(200, response_body)
+  end
+
   def handle_search_organizations(conn, %{"term" => _term}) do
     response_body = ~s"""
     {

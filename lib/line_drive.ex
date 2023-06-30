@@ -22,6 +22,7 @@ defmodule LineDrive do
   defdelegate get_org_field_keys_and_names(client, opts), to: LineDrive.OrganizationFields
 
   defdelegate get_organization(client, org_id), to: LineDrive.Organizations
+  defdelegate list_organizations(client, opts), to: LineDrive.Organizations
   defdelegate search_organizations(client, term, opts), to: LineDrive.Organizations
   defdelegate create_organization(client, org), to: LineDrive.Organizations
   defdelegate update_organization(client, org_id, data), to: LineDrive.Organizations

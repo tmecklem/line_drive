@@ -5,7 +5,11 @@ defmodule LineDrive.Organizations do
 
   use Tesla
 
-  alias LineDrive.Organization
+  alias LineDrive.{
+    Organization,
+    PagedResult
+  }
+
   alias Tesla.Client
 
   @callback get_organization(Client.t(), integer) :: {:ok, Organization.t()}
@@ -34,6 +38,28 @@ defmodule LineDrive.Organizations do
     |> case do
       {:ok, %Tesla.Env{status: 201, body: %{data: org_data}}} ->
         {:ok, Organization.new(org_data)}
+
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
+
+      {:error, env} ->
+        {:error, env}
+    end
+  end
+
+  def list_organizations(%Client{} = client, opts \\ []) do
+    start = Keyword.get(opts, :start, 0)
+    limit = Keyword.get(opts, :limit, 50)
+
+    client
+    |> get("/api/v1/organizations", query: [start: start, limit: limit])
+    |> case do
+      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data} = body}} ->
+        organizations =
+          data
+          |> Enum.map(fn organization -> Organization.new(organization) end)
+
+        {:ok, PagedResult.new(organizations, body)}
 
       {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
         {:error, message}
