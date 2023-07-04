@@ -40,6 +40,12 @@ defmodule LineDrive.FakePipedriveServer do
     |> handle_list_activity_types()
   end
 
+  get "/api/v1/deals" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_deals(conn.query_params)
+  end
+
   get "/api/v1/deals/search" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")

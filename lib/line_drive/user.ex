@@ -12,6 +12,14 @@ defmodule LineDrive.User do
     field :active_flag, boolean(), default: true
   end
 
+  def new(nil) do
+    struct(__MODULE__)
+  end
+
+  def new(int) when is_integer(int) do
+    struct(__MODULE__, %{id: int})
+  end
+
   def new(map) do
     struct(__MODULE__, map)
   end
