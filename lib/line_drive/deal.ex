@@ -73,6 +73,7 @@ defmodule LineDrive.Deal do
     |> Map.update(:next_activity_date, nil, &parse_date/1)
     |> Map.update(:next_activity_time, nil, &parse_time/1)
     |> Map.update(:last_activity_date, nil, &parse_date/1)
+    |> Map.update(:update_time, nil, &parse_datetime/1)
     |> Map.update(:close_time, nil, &parse_datetime/1)
     |> Map.update(:won_time, nil, &parse_datetime/1)
     |> Map.update(:first_won_time, nil, &parse_datetime/1)
@@ -80,6 +81,7 @@ defmodule LineDrive.Deal do
     |> Map.update(:last_incoming_mail_time, nil, &parse_datetime/1)
     |> Map.update(:last_outgoing_mail_time, nil, &parse_datetime/1)
     |> Map.update(:creator_user_id, nil, &LineDrive.User.new/1)
+    |> Map.update(:visible_to, nil, &parse_integer/1)
     |> extract_org_id()
     |> then(&struct(__MODULE__, &1))
   end
@@ -90,6 +92,9 @@ defmodule LineDrive.Deal do
       Map.put(acc, key, Map.get_lazy(map, key, fn -> Map.get(map, Atom.to_string(key), nil) end))
     end)
   end
+
+  defp parse_integer(visible_to) when is_binary(visible_to), do: String.to_integer(visible_to)
+  defp parse_integer(visible_to), do: visible_to
 
   defp parse_date(nil), do: nil
 

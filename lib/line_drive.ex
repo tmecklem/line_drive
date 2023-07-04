@@ -9,6 +9,7 @@ defmodule LineDrive do
 
   defdelegate list_activity_types(client), to: LineDrive.ActivityTypes
 
+  defdelegate list_deals(client, opts), to: LineDrive.Deals
   defdelegate get_deal(client, deal_id), to: LineDrive.Deals
   defdelegate search_deals(client, term, opts), to: LineDrive.Deals
 
