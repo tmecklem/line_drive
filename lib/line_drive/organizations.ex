@@ -77,8 +77,10 @@ defmodule LineDrive.Organizations do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)
 
+    all_opts = opts |> Keyword.merge(term: term, start: start, limit: limit)
+
     client
-    |> get("/api/v1/organizations/search", query: [term: term, start: start, limit: limit])
+    |> get("/api/v1/organizations/search", query: all_opts)
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
         organizations =
