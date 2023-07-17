@@ -58,8 +58,10 @@ defmodule LineDrive.Deals do
     limit = Keyword.get(opts, :limit, 50)
     status = Keyword.get(opts, :status, "open")
 
+    all_opts = opts |> Keyword.merge(term: term, start: start, limit: limit, status: status)
+
     client
-    |> get("/api/v1/deals/search", query: [term: term, start: start, limit: limit, status: status])
+    |> get("/api/v1/deals/search", query: all_opts)
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
         deals =
