@@ -88,7 +88,7 @@ defmodule LineDrive.Person do
     struct_keys()
     |> Enum.reduce(%{}, fn key, acc ->
       Map.put(acc, key, Map.get_lazy(map, key, fn -> Map.get(map, Atom.to_string(key), nil) end))
-     end)
+    end)
   end
 
   defp parse_date(nil), do: nil

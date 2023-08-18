@@ -3,9 +3,9 @@ defmodule LineDrive.Persons.ListPersonsTest do
   use LineDrive.PipedriveClientCase, async: false
 
   alias LineDrive.{
+    PagedResult,
     Person,
-    Persons,
-    PagedResult
+    Persons
   }
 
   describe "list_persons" do
