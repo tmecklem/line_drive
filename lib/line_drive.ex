@@ -28,8 +28,9 @@ defmodule LineDrive do
   defdelegate create_organization(client, org), to: LineDrive.Organizations
   defdelegate update_organization(client, org_id, data), to: LineDrive.Organizations
 
-  defdelegate get_person(client, person_id), to: LineDrive.Persons
   defdelegate create_person(client, person), to: LineDrive.Persons
+  defdelegate get_person(client, person_id), to: LineDrive.Persons
+  defdelegate list_persons(client, opts), to: LineDrive.Persons
   defdelegate search_persons(client, term, opts), to: LineDrive.Persons
 
   defdelegate list_pipelines(client), to: LineDrive.Pipelines

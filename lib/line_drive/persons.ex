@@ -5,11 +5,13 @@ defmodule LineDrive.Persons do
 
   use Tesla
 
+  alias LineDrive.PagedResult
   alias LineDrive.Person
   alias Tesla.Client
 
-  @callback get_person(Client.t(), integer) :: {:ok, Person.t()}
   @callback create_person(Client.t(), Person.t()) :: {:ok, Person.t()}
+  @callback get_person(Client.t(), integer) :: {:ok, Person.t()}
+  @callback list_persons(Client.t(), [any()]) :: {:ok, PagedResult.t()}
   @callback search_persons(Client.t(), binary()) :: {:ok, list(Person.t())}
 
   def get_person(%Client{} = client, id) do
@@ -42,6 +44,31 @@ defmodule LineDrive.Persons do
     end
   end
 
+  def list_persons(%Client{} = client, opts \\ []) do
+    start = Keyword.get(opts, :start, 0)
+    limit = Keyword.get(opts, :limit, 50)
+
+    client
+    |> get("/api/v1/persons", query: [start: start, limit: limit])
+    |> case do
+      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: nil} = body}} ->
+        {:ok, PagedResult.new([], body)}
+
+      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data} = body}} ->
+        persons =
+          data
+          |> Enum.map(fn person -> Person.new(person) end)
+
+        {:ok, PagedResult.new(persons, body)}
+
+      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+        {:error, message}
+
+      {:error, env} ->
+        {:error, env}
+    end
+  end
+
   def search_persons(%Client{} = client, term, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)
@@ -53,7 +80,7 @@ defmodule LineDrive.Persons do
         persons =
           data
           |> Map.get(:items)
-          |> Enum.map(fn item_container -> Person.new(item_container.item) end)
+          |> Enum.map(fn item_container -> Person.new_from_search(item_container.item) end)
 
         {:ok, persons}
 
