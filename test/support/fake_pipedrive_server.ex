@@ -15,6 +15,7 @@ defmodule LineDrive.FakePipedriveServer do
     FakeOrganizationApiHandler,
     FakeLeadApiHandler,
     FakePersonApiHandler,
+    FakePersonFieldApiHandler,
     FakePipelineApiHandler
   }
 
@@ -128,6 +129,12 @@ defmodule LineDrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_get_person(conn.params)
+  end
+
+  get "/api/v1/person_fields" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_person_fields()
   end
 
   get "/api/v1/pipelines/:id/deals" do
