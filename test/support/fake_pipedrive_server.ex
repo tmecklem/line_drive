@@ -131,7 +131,7 @@ defmodule LineDrive.FakePipedriveServer do
     |> handle_get_person(conn.params)
   end
 
-  get "/api/v1/person_fields" do
+  get "/api/v1/personFields" do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_list_person_fields()
