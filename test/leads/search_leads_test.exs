@@ -4,8 +4,8 @@ defmodule LineDrive.Leads.SearchLeadsTest do
 
   alias LineDrive.{
     Lead,
-    LeadValue,
-    Leads
+    Leads,
+    LeadValue
   }
 
   describe "search_leads" do

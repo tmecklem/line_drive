@@ -4,6 +4,7 @@ defmodule LineDrive.User do
   """
 
   use TypedStruct
+  use LineDrive.Structable
 
   typedstruct do
     field :id, pos_integer()
@@ -21,6 +22,8 @@ defmodule LineDrive.User do
   end
 
   def new(map) do
-    struct(__MODULE__, map)
+    map
+    |> atomize_keys()
+    |> then(&struct(__MODULE__, &1))
   end
 end

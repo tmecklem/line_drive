@@ -4,6 +4,7 @@ defmodule LineDrive.Organization do
   """
 
   use TypedStruct
+  use LineDrive.Structable
 
   typedstruct do
     field :owner_id, pos_integer()
@@ -65,59 +66,13 @@ defmodule LineDrive.Organization do
     def encode(org, opts), do: Jason.encode(org, opts)
   end
 
-  def new(map) do
+  def handle_transform(map, _) do
     map
-    |> atomize_keys()
     |> Map.update(:next_activity_date, nil, &parse_date/1)
     |> Map.update(:next_activity_time, nil, &parse_time/1)
     |> Map.update(:last_activity_date, nil, &parse_date/1)
     |> Map.update(:add_time, nil, &parse_datetime/1)
     |> Map.update(:update_time, nil, &parse_datetime/1)
     |> Map.update(:delete_time, nil, &parse_datetime/1)
-    |> then(&struct(__MODULE__, &1))
-  end
-
-  defp atomize_keys(map) do
-    struct_keys()
-    |> Enum.reduce(%{}, fn key, acc ->
-      Map.put(acc, key, Map.get_lazy(map, key, fn -> Map.get(map, Atom.to_string(key), nil) end))
-    end)
-  end
-
-  defp parse_date(nil), do: nil
-
-  defp parse_date(date_str) do
-    case Date.from_iso8601(date_str) do
-      {:ok, date} -> date
-      _ -> nil
-    end
-  end
-
-  defp parse_datetime(nil), do: nil
-
-  defp parse_datetime(date_str) do
-    case NaiveDateTime.from_iso8601(date_str) do
-      {:ok, date} -> date
-      _ -> nil
-    end
-  end
-
-  defp parse_time(val) when is_binary(val) do
-    [hour, minute, second] =
-      val
-      |> String.split(":")
-      |> Enum.map(&String.to_integer/1)
-
-    case Time.new(hour, minute, second) do
-      {:ok, date} -> date
-      _ -> nil
-    end
-  end
-
-  defp parse_time(_), do: nil
-
-  defp struct_keys do
-    Map.keys(__MODULE__.__struct__())
-    |> List.delete(:__struct__)
   end
 end

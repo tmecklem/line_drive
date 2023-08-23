@@ -4,6 +4,7 @@ defmodule LineDrive.ActivityType do
   """
 
   use TypedStruct
+  use LineDrive.Structable
 
   @type key_string :: binary()
 
@@ -17,32 +18,9 @@ defmodule LineDrive.ActivityType do
     field :update_time, NaiveDateTime.t()
   end
 
-  def new(map) do
+  def handle_transform(map, _) do
     map
-    |> atomize_keys()
-    |> Map.update(:add_time, nil, &parse_naivedatetime/1)
-    |> Map.update(:update_time, nil, &parse_naivedatetime/1)
-    |> then(&struct(__MODULE__, &1))
-  end
-
-  defp parse_naivedatetime(nil), do: nil
-
-  defp parse_naivedatetime(date_str) do
-    case NaiveDateTime.from_iso8601(date_str) do
-      {:ok, date} -> date
-      _ -> nil
-    end
-  end
-
-  defp atomize_keys(map) do
-    struct_keys()
-    |> Enum.reduce(%{}, fn key, acc ->
-      Map.put(acc, key, Map.get_lazy(map, key, fn -> Map.get(map, Atom.to_string(key), nil) end))
-    end)
-  end
-
-  defp struct_keys do
-    Map.keys(__MODULE__.__struct__())
-    |> List.delete(:__struct__)
+    |> Map.update(:add_time, nil, &parse_datetime/1)
+    |> Map.update(:update_time, nil, &parse_datetime/1)
   end
 end
