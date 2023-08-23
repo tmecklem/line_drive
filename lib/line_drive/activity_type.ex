@@ -18,12 +18,11 @@ defmodule LineDrive.ActivityType do
   end
 
   def new(map) do
-    struct(
-      __MODULE__,
-      map
-      |> Map.put(:add_time, parse_naivedatetime(map.add_time))
-      |> Map.put(:update_time, parse_naivedatetime(map.update_time))
-    )
+    map
+    |> atomize_keys()
+    |> Map.update(:add_time, nil, &parse_naivedatetime/1)
+    |> Map.update(:update_time, nil, &parse_naivedatetime/1)
+    |> then(&struct(__MODULE__, &1))
   end
 
   defp parse_naivedatetime(nil), do: nil
@@ -33,5 +32,17 @@ defmodule LineDrive.ActivityType do
       {:ok, date} -> date
       _ -> nil
     end
+  end
+
+  defp atomize_keys(map) do
+    struct_keys()
+    |> Enum.reduce(%{}, fn key, acc ->
+      Map.put(acc, key, Map.get_lazy(map, key, fn -> Map.get(map, Atom.to_string(key), nil) end))
+    end)
+  end
+
+  defp struct_keys do
+    Map.keys(__MODULE__.__struct__())
+    |> List.delete(:__struct__)
   end
 end

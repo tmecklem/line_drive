@@ -44,23 +44,30 @@ defmodule LineDrive.Activity do
   end
 
   def new(map) do
-    struct(
-      __MODULE__,
-      map
-      |> Map.put(:due_date, maybe_parse_due_date(map))
-    )
+    map
+    |> atomize_keys()
+    |> Map.update(:due_date, nil, &parse_date/1)
+    |> then(&struct(__MODULE__, &1))
   end
 
-  defp maybe_parse_due_date(%{due_date: nil}), do: nil
+  defp atomize_keys(map) do
+    struct_keys()
+    |> Enum.reduce(%{}, fn key, acc ->
+      Map.put(acc, key, Map.get_lazy(map, key, fn -> Map.get(map, Atom.to_string(key), nil) end))
+    end)
+  end
 
-  defp maybe_parse_due_date(%{due_date: %Date{} = date}), do: date
-
-  defp maybe_parse_due_date(%{due_date: date_str}) do
+  defp parse_date(date_str) when is_binary(date_str) do
     case Date.from_iso8601(date_str) do
       {:ok, date} -> date
       _ -> nil
     end
   end
 
-  defp maybe_parse_due_date(_), do: nil
+  defp parse_date(date), do: date
+
+  defp struct_keys do
+    Map.keys(__MODULE__.__struct__())
+    |> List.delete(:__struct__)
+  end
 end

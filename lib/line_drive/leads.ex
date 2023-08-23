@@ -16,10 +16,10 @@ defmodule LineDrive.Leads do
     client
     |> post("/api/v1/leads", lead)
     |> case do
-      {:ok, %Tesla.Env{status: 201, body: %{data: lead_data}}} ->
+      {:ok, %Tesla.Env{status: 201, body: %{"data" => lead_data}}} ->
         {:ok, Lead.new(lead_data)}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->
@@ -31,10 +31,10 @@ defmodule LineDrive.Leads do
     client
     |> get("/api/v1/leads/:id", opts: [path_params: [id: lead_id]])
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{data: lead_data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"data" => lead_data}}} ->
         {:ok, Lead.new(lead_data)}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->
@@ -49,15 +49,15 @@ defmodule LineDrive.Leads do
     client
     |> get("/api/v1/leads/search", query: [term: term, start: start, limit: limit])
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         leads =
           data
-          |> Map.get(:items)
-          |> Enum.map(fn item_container -> Lead.new(item_container.item) end)
+          |> Map.get("items")
+          |> Enum.map(fn item_container -> Lead.new(Map.get(item_container, "item")) end)
 
         {:ok, leads}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->

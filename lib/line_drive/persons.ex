@@ -18,10 +18,10 @@ defmodule LineDrive.Persons do
     client
     |> get("/api/v1/persons/:id", opts: [path_params: [id: id]])
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         {:ok, Person.new(data)}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->
@@ -33,10 +33,10 @@ defmodule LineDrive.Persons do
     client
     |> post("/api/v1/persons", person)
     |> case do
-      {:ok, %Tesla.Env{status: 201, body: %{data: person_data}}} ->
+      {:ok, %Tesla.Env{status: 201, body: %{"data" => person_data}}} ->
         {:ok, Person.new(person_data)}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->
@@ -51,17 +51,17 @@ defmodule LineDrive.Persons do
     client
     |> get("/api/v1/persons", query: [start: start, limit: limit])
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: nil} = body}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
         {:ok, PagedResult.new([], body)}
 
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data} = body}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data} = body}} ->
         persons =
           data
           |> Enum.map(fn person -> Person.new(person) end)
 
         {:ok, PagedResult.new(persons, body)}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->
@@ -76,15 +76,17 @@ defmodule LineDrive.Persons do
     client
     |> get("/api/v1/persons/search", query: [term: term, start: start, limit: limit])
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         persons =
           data
-          |> Map.get(:items)
-          |> Enum.map(fn item_container -> Person.new_from_search(item_container.item) end)
+          |> Map.get("items")
+          |> Enum.map(fn item_container ->
+            Person.new_from_search(Map.get(item_container, "item"))
+          end)
 
         {:ok, persons}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->

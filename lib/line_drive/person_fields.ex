@@ -18,17 +18,17 @@ defmodule LineDrive.PersonFields do
     client
     |> get("/api/v1/personFields", query: [start: start, limit: limit])
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: nil} = body}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
         {:ok, PagedResult.new([], body)}
 
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data} = body}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data} = body}} ->
         person_fields =
           data
           |> Enum.map(fn person_field -> PersonField.new(person_field) end)
 
         {:ok, PagedResult.new(person_fields, body)}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->

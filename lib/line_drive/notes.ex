@@ -15,10 +15,10 @@ defmodule LineDrive.Notes do
     client
     |> post("/api/v1/notes", note)
     |> case do
-      {:ok, %Tesla.Env{status: 201, body: %{data: note_data}}} ->
+      {:ok, %Tesla.Env{status: 201, body: %{"data" => note_data}}} ->
         {:ok, Note.new(note_data)}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->
@@ -34,7 +34,7 @@ defmodule LineDrive.Notes do
     client
     |> get("/api/v1/notes", query: [org_id: org_id, start: start, limit: limit, sort: sort])
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         notes =
           data
           |> Enum.map(fn note_container ->
@@ -43,7 +43,7 @@ defmodule LineDrive.Notes do
 
         {:ok, notes}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->

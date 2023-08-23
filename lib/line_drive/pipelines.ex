@@ -17,14 +17,14 @@ defmodule LineDrive.Pipelines do
     client
     |> get("/api/v1/pipelines")
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{data: pipeline_data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"data" => pipeline_data}}} ->
         pipelines =
           pipeline_data
           |> Enum.map(&Pipeline.new/1)
 
         {:ok, pipelines}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->
@@ -36,14 +36,14 @@ defmodule LineDrive.Pipelines do
     client
     |> get("/api/v1/pipelines/#{pipeline_id}/deals")
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{data: deal_data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"data" => deal_data}}} ->
         deals =
           deal_data
           |> Enum.map(&Deal.new/1)
 
         {:ok, deals}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->

@@ -17,18 +17,18 @@ defmodule LineDrive.OrganizationFields do
     client
     |> get("/api/v1/organizationFields/", query: [start: start, limit: limit])
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         org_fields =
           data
           |> Enum.map(fn item ->
             item
-            |> Map.take([:key, :name])
+            |> Map.take(["key", "name"])
             |> OrganizationField.new()
           end)
 
         {:ok, org_fields}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->

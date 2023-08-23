@@ -14,10 +14,10 @@ defmodule LineDrive.Activities do
     client
     |> post("/api/v1/activities", activity)
     |> case do
-      {:ok, %Tesla.Env{status: 201, body: %{data: activity_data}}} ->
+      {:ok, %Tesla.Env{status: 201, body: %{"data" => activity_data}}} ->
         {:ok, Activity.new(activity_data)}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->

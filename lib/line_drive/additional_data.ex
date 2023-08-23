@@ -11,7 +11,7 @@ defmodule LineDrive.AdditionalData do
     field :pagination, Pagination.t()
   end
 
-  def new(%{pagination: pagination}) do
+  def new(%{"pagination" => pagination}) do
     %__MODULE__{pagination: Pagination.new(pagination)}
   end
 end

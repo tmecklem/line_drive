@@ -5,13 +5,15 @@ defmodule LineDrive.Person do
 
   use TypedStruct
 
+  alias LineDrive.Organization
+
   typedstruct do
     field :id, pos_integer()
     field :name, String.t(), enforce: true
     field :owner_id, pos_integer()
     field :primary_email, String.t()
     # search returns an organization map
-    field :organization, LineDrive.Organization.t()
+    field :organization, Organization.t()
     field :org_name, String.t()
     field :org_id, pos_integer()
 
@@ -49,6 +51,8 @@ defmodule LineDrive.Person do
     field :last_outgoing_mail_time, NaiveDateTime.t()
     field :label, non_neg_integer()
     field :owner_name, String.t()
+
+    field :original_object, %{}
   end
 
   defimpl Jason.Encoder, for: __MODULE__ do
@@ -62,6 +66,7 @@ defmodule LineDrive.Person do
   def new_from_search(map) do
     map
     |> atomize_keys()
+    |> Map.update(:organization, nil, &Organization.new/1)
     |> then(&struct(__MODULE__, &1))
   end
 
@@ -76,8 +81,9 @@ defmodule LineDrive.Person do
     |> Map.update(:delete_time, nil, &parse_datetime/1)
     |> Map.update(:last_incoming_mail_time, nil, &parse_datetime/1)
     |> Map.update(:last_outgoing_mail_time, nil, &parse_datetime/1)
-    |> Map.update(:org_id, nil, &get_nested_value(&1, :value))
-    |> Map.update(:owner_id, nil, &get_nested_value(&1, :id))
+    |> Map.update(:org_id, nil, &get_nested_value(&1, "value"))
+    |> Map.update(:owner_id, nil, &get_nested_value(&1, "id"))
+    |> Map.put(:original_object, map)
     |> then(&struct(__MODULE__, &1))
   end
 
