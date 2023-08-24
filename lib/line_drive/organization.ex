@@ -56,6 +56,7 @@ defmodule LineDrive.Organization do
     field :address_formatted_address, String.t()
     field :owner_name, String.t()
     field :cc_email, String.t()
+    field :value, non_neg_integer()
   end
 
   defimpl Jason.Encoder, for: __MODULE__ do
@@ -65,6 +66,12 @@ defmodule LineDrive.Organization do
 
     def encode(org, opts), do: Jason.encode(org, opts)
   end
+
+  def new(map) when is_map(map) do
+    new_from_map(map)
+  end
+
+  def new(val), do: val
 
   def handle_transform(map, _) do
     map

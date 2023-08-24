@@ -6,6 +6,9 @@ defmodule LineDrive.Deal do
   use TypedStruct
   use LineDrive.Structable
 
+  alias LineDrive.Organization
+  alias LineDrive.User
+
   typedstruct do
     field :expected_close_date, Date.t()
     field :id, non_neg_integer()
@@ -60,9 +63,9 @@ defmodule LineDrive.Deal do
     field :cc_email, String.t()
     field :org_hidden, boolean()
     field :person_hidden, boolean()
-    field :creator_user_id, LineDrive.User.t()
-    field :user_id, LineDrive.User.t()
-    field :org_id, non_neg_integer()
+    field :creator_user_id, User.t()
+    field :user_id, User.t()
+    field :org_id, Organization.t()
   end
 
   def handle_transform(map, _) do
@@ -80,12 +83,9 @@ defmodule LineDrive.Deal do
     |> Map.update(:lost_time, nil, &parse_datetime/1)
     |> Map.update(:last_incoming_mail_time, nil, &parse_datetime/1)
     |> Map.update(:last_outgoing_mail_time, nil, &parse_datetime/1)
-    |> Map.update(:creator_user_id, nil, &LineDrive.User.new/1)
+    |> Map.update(:creator_user_id, nil, &User.new/1)
+    |> Map.update(:user_id, nil, &User.new/1)
+    |> Map.update(:org_id, nil, &Organization.new/1)
     |> Map.update(:visible_to, nil, &parse_integer/1)
-    |> extract_org_id()
   end
-
-  defp extract_org_id(%{org_id: %{value: value}} = map), do: Map.put(map, :org_id, value)
-
-  defp extract_org_id(map), do: map
 end
