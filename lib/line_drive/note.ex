@@ -4,6 +4,7 @@ defmodule LineDrive.Note do
   """
 
   use TypedStruct
+  use LineDrive.Structable
 
   typedstruct do
     field :content, String.t(), enforce: true
@@ -31,12 +32,5 @@ defmodule LineDrive.Note do
     end
 
     def encode(note, opts), do: Jason.encode(note, opts)
-  end
-
-  def new(map) do
-    struct(
-      __MODULE__,
-      map
-    )
   end
 end

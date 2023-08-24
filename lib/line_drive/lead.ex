@@ -4,6 +4,7 @@ defmodule LineDrive.Lead do
   """
 
   use TypedStruct
+  use LineDrive.Structable
 
   alias LineDrive.{LeadOrganization, LeadPerson, LeadValue}
 
@@ -35,24 +36,11 @@ defmodule LineDrive.Lead do
     def encode(lead, opts), do: Jason.encode(lead, opts)
   end
 
-  def new(map) do
-    struct(
-      __MODULE__,
-      map
-      |> Map.put(:expected_close_date, maybe_parse_expected_close_date(map))
-    )
+  def handle_transform(map, _) do
+    map
+    |> Map.update(:expected_close_date, nil, &parse_date/1)
+    |> Map.update(:organization, nil, &LeadOrganization.new/1)
+    |> Map.update(:person, nil, &LeadPerson.new/1)
+    |> Map.update(:value, nil, &LeadValue.new/1)
   end
-
-  defp maybe_parse_expected_close_date(%{expected_close_date: nil}), do: nil
-
-  defp maybe_parse_expected_close_date(%{expected_close_date: %Date{} = date}), do: date
-
-  defp maybe_parse_expected_close_date(%{expected_close_date: date_str}) do
-    case Date.from_iso8601(date_str) do
-      {:ok, date} -> date
-      _ -> nil
-    end
-  end
-
-  defp maybe_parse_expected_close_date(_), do: nil
 end

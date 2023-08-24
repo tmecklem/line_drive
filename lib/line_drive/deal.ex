@@ -4,6 +4,7 @@ defmodule LineDrive.Deal do
   """
 
   use TypedStruct
+  use LineDrive.Structable
 
   typedstruct do
     field :expected_close_date, Date.t()
@@ -64,9 +65,8 @@ defmodule LineDrive.Deal do
     field :org_id, non_neg_integer()
   end
 
-  def new(map) do
+  def handle_transform(map, _) do
     map
-    |> atomize_keys()
     |> Map.update(:expected_close_date, nil, &parse_date/1)
     |> Map.update(:add_time, nil, &parse_datetime/1)
     |> Map.update(:stage_change_time, nil, &parse_datetime/1)
@@ -83,56 +83,9 @@ defmodule LineDrive.Deal do
     |> Map.update(:creator_user_id, nil, &LineDrive.User.new/1)
     |> Map.update(:visible_to, nil, &parse_integer/1)
     |> extract_org_id()
-    |> then(&struct(__MODULE__, &1))
-  end
-
-  defp atomize_keys(map) do
-    struct_keys()
-    |> Enum.reduce(%{}, fn key, acc ->
-      Map.put(acc, key, Map.get_lazy(map, key, fn -> Map.get(map, Atom.to_string(key), nil) end))
-    end)
-  end
-
-  defp parse_integer(visible_to) when is_binary(visible_to), do: String.to_integer(visible_to)
-  defp parse_integer(visible_to), do: visible_to
-
-  defp parse_date(nil), do: nil
-
-  defp parse_date(date_str) do
-    case Date.from_iso8601(date_str) do
-      {:ok, date} -> date
-      _ -> nil
-    end
-  end
-
-  defp parse_datetime(nil), do: nil
-
-  defp parse_datetime(date_str) do
-    case NaiveDateTime.from_iso8601(date_str) do
-      {:ok, date} -> date
-      _ -> nil
-    end
-  end
-
-  defp parse_time(val) when is_binary(val) do
-    [hour, minute, second] =
-      val
-      |> String.split(":")
-      |> Enum.map(&String.to_integer/1)
-
-    case Time.new(hour, minute, second) do
-      {:ok, date} -> date
-      _ -> nil
-    end
-  end
-
-  defp parse_time(_), do: nil
-
-  defp struct_keys do
-    Map.keys(__MODULE__.__struct__())
-    |> List.delete(:__struct__)
   end
 
   defp extract_org_id(%{org_id: %{value: value}} = map), do: Map.put(map, :org_id, value)
+
   defp extract_org_id(map), do: map
 end

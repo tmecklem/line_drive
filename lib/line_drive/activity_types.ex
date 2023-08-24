@@ -14,14 +14,14 @@ defmodule LineDrive.ActivityTypes do
     client
     |> get("/api/v1/activityTypes")
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{data: activity_type_data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"data" => activity_type_data}}} ->
         activity_types =
           activity_type_data
           |> Enum.map(&ActivityType.new/1)
 
         {:ok, activity_types}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->

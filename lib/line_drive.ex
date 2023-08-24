@@ -45,7 +45,7 @@ defmodule LineDrive do
 
     middleware = [
       {Tesla.Middleware.BaseUrl, base_url},
-      {Tesla.Middleware.JSON, engine: Jason, engine_opts: [keys: :atoms]},
+      {Tesla.Middleware.JSON, engine: Jason},
       {Tesla.Middleware.Query, api_token: api_token},
       Tesla.Middleware.PathParams
     ]

@@ -4,6 +4,9 @@ defmodule LineDrive.Person do
   """
 
   use TypedStruct
+  use LineDrive.Structable
+
+  alias LineDrive.Organization
 
   typedstruct do
     field :id, pos_integer()
@@ -11,7 +14,7 @@ defmodule LineDrive.Person do
     field :owner_id, pos_integer()
     field :primary_email, String.t()
     # search returns an organization map
-    field :organization, LineDrive.Organization.t()
+    field :organization, Organization.t()
     field :org_name, String.t()
     field :org_id, pos_integer()
 
@@ -49,6 +52,8 @@ defmodule LineDrive.Person do
     field :last_outgoing_mail_time, NaiveDateTime.t()
     field :label, non_neg_integer()
     field :owner_name, String.t()
+
+    field :original_object, %{}
   end
 
   defimpl Jason.Encoder, for: __MODULE__ do
@@ -62,12 +67,12 @@ defmodule LineDrive.Person do
   def new_from_search(map) do
     map
     |> atomize_keys()
+    |> Map.update(:organization, nil, &Organization.new/1)
     |> then(&struct(__MODULE__, &1))
   end
 
-  def new(map) do
+  def handle_transform(map, original_map) do
     map
-    |> atomize_keys()
     |> Map.update(:next_activity_date, nil, &parse_date/1)
     |> Map.update(:next_activity_time, nil, &parse_time/1)
     |> Map.update(:last_activity_date, nil, &parse_date/1)
@@ -76,55 +81,8 @@ defmodule LineDrive.Person do
     |> Map.update(:delete_time, nil, &parse_datetime/1)
     |> Map.update(:last_incoming_mail_time, nil, &parse_datetime/1)
     |> Map.update(:last_outgoing_mail_time, nil, &parse_datetime/1)
-    |> Map.update(:org_id, nil, &get_nested_value(&1, :value))
-    |> Map.update(:owner_id, nil, &get_nested_value(&1, :id))
-    |> then(&struct(__MODULE__, &1))
-  end
-
-  defp get_nested_value(nil, _key), do: nil
-  defp get_nested_value(map, key), do: Map.get(map, key, nil)
-
-  defp atomize_keys(map) do
-    struct_keys()
-    |> Enum.reduce(%{}, fn key, acc ->
-      Map.put(acc, key, Map.get_lazy(map, key, fn -> Map.get(map, Atom.to_string(key), nil) end))
-    end)
-  end
-
-  defp parse_date(nil), do: nil
-
-  defp parse_date(date_str) do
-    case Date.from_iso8601(date_str) do
-      {:ok, date} -> date
-      _ -> nil
-    end
-  end
-
-  defp parse_datetime(nil), do: nil
-
-  defp parse_datetime(date_str) do
-    case NaiveDateTime.from_iso8601(date_str) do
-      {:ok, date} -> date
-      _ -> nil
-    end
-  end
-
-  defp parse_time(val) when is_binary(val) do
-    [hour, minute, second] =
-      val
-      |> String.split(":")
-      |> Enum.map(&String.to_integer/1)
-
-    case Time.new(hour, minute, second) do
-      {:ok, date} -> date
-      _ -> nil
-    end
-  end
-
-  defp parse_time(_), do: nil
-
-  defp struct_keys do
-    Map.keys(__MODULE__.__struct__())
-    |> List.delete(:__struct__)
+    |> Map.update(:org_id, nil, &get_nested_value(&1, "value"))
+    |> Map.update(:owner_id, nil, &get_nested_value(&1, "id"))
+    |> Map.put(:original_object, original_map)
   end
 end

@@ -4,6 +4,7 @@ defmodule LineDrive.ActivityType do
   """
 
   use TypedStruct
+  use LineDrive.Structable
 
   @type key_string :: binary()
 
@@ -17,21 +18,9 @@ defmodule LineDrive.ActivityType do
     field :update_time, NaiveDateTime.t()
   end
 
-  def new(map) do
-    struct(
-      __MODULE__,
-      map
-      |> Map.put(:add_time, parse_naivedatetime(map.add_time))
-      |> Map.put(:update_time, parse_naivedatetime(map.update_time))
-    )
-  end
-
-  defp parse_naivedatetime(nil), do: nil
-
-  defp parse_naivedatetime(date_str) do
-    case NaiveDateTime.from_iso8601(date_str) do
-      {:ok, date} -> date
-      _ -> nil
-    end
+  def handle_transform(map, _) do
+    map
+    |> Map.update(:add_time, nil, &parse_datetime/1)
+    |> Map.update(:update_time, nil, &parse_datetime/1)
   end
 end

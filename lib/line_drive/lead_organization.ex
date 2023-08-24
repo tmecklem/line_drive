@@ -3,6 +3,7 @@ defmodule LineDrive.LeadOrganization do
   This module represent a lead organization in pipedrive.
   """
   use TypedStruct
+  use LineDrive.Structable
 
   typedstruct do
     field :id, pos_integer()

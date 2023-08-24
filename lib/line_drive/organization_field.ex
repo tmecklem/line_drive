@@ -4,6 +4,7 @@ defmodule LineDrive.OrganizationField do
   """
 
   use TypedStruct
+  use LineDrive.Structable
 
   typedstruct do
     field :id, pos_integer()
@@ -42,12 +43,5 @@ defmodule LineDrive.OrganizationField do
     end
 
     def encode(organization_field, opts), do: Jason.encode(organization_field, opts)
-  end
-
-  def new(map) do
-    struct(
-      __MODULE__,
-      map
-    )
   end
 end

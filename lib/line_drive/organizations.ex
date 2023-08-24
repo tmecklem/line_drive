@@ -22,10 +22,10 @@ defmodule LineDrive.Organizations do
     client
     |> get("/api/v1/organizations/:id", opts: [path_params: [id: org_id]])
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{data: org_data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"data" => org_data}}} ->
         {:ok, Organization.new(org_data)}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->
@@ -37,10 +37,10 @@ defmodule LineDrive.Organizations do
     client
     |> post("/api/v1/organizations", org)
     |> case do
-      {:ok, %Tesla.Env{status: 201, body: %{data: org_data}}} ->
+      {:ok, %Tesla.Env{status: 201, body: %{"data" => org_data}}} ->
         {:ok, Organization.new(org_data)}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->
@@ -55,17 +55,17 @@ defmodule LineDrive.Organizations do
     client
     |> get("/api/v1/organizations", query: [start: start, limit: limit])
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: nil} = body}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
         {:ok, PagedResult.new([], body)}
 
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data} = body}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data} = body}} ->
         organizations =
           data
           |> Enum.map(fn organization -> Organization.new(organization) end)
 
         {:ok, PagedResult.new(organizations, body)}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->
@@ -80,15 +80,15 @@ defmodule LineDrive.Organizations do
     client
     |> get("/api/v1/organizations/search", query: [term: term, start: start, limit: limit])
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         organizations =
           data
-          |> Map.get(:items)
-          |> Enum.map(fn item_container -> Organization.new(item_container.item) end)
+          |> Map.get("items")
+          |> Enum.map(fn item_container -> Organization.new(Map.get(item_container, "item")) end)
 
         {:ok, organizations}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->
@@ -100,10 +100,10 @@ defmodule LineDrive.Organizations do
     client
     |> put("/api/v1/organizations/#{org_id}", body)
     |> case do
-      {:ok, %Tesla.Env{status: 200, body: %{success: true, data: data}}} ->
+      {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         {:ok, Organization.new(data)}
 
-      {:ok, %Tesla.Env{body: %{success: false, error: message}}} ->
+      {:ok, %Tesla.Env{body: %{"success" => false, "error" => message}}} ->
         {:error, message}
 
       {:error, env} ->

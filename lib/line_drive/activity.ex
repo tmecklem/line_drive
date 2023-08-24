@@ -9,6 +9,7 @@ defmodule LineDrive.Activity do
   }
 
   use TypedStruct
+  use LineDrive.Structable
 
   typedstruct do
     field :busy_flag, boolean()
@@ -43,24 +44,8 @@ defmodule LineDrive.Activity do
     def encode(activity, opts), do: Jason.encode(activity, opts)
   end
 
-  def new(map) do
-    struct(
-      __MODULE__,
-      map
-      |> Map.put(:due_date, maybe_parse_due_date(map))
-    )
+  def handle_transform(map, _) do
+    map
+    |> Map.update(:due_date, nil, &parse_date/1)
   end
-
-  defp maybe_parse_due_date(%{due_date: nil}), do: nil
-
-  defp maybe_parse_due_date(%{due_date: %Date{} = date}), do: date
-
-  defp maybe_parse_due_date(%{due_date: date_str}) do
-    case Date.from_iso8601(date_str) do
-      {:ok, date} -> date
-      _ -> nil
-    end
-  end
-
-  defp maybe_parse_due_date(_), do: nil
 end

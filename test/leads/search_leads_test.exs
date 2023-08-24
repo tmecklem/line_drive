@@ -4,7 +4,8 @@ defmodule LineDrive.Leads.SearchLeadsTest do
 
   alias LineDrive.{
     Lead,
-    Leads
+    Leads,
+    LeadValue
   }
 
   describe "search_leads" do
@@ -17,7 +18,7 @@ defmodule LineDrive.Leads.SearchLeadsTest do
                   title: "Farkel Deal Lead",
                   person: %{id: 7, name: "Steve Farkel"},
                   organization: %{id: 1, name: "Mecklem, LLC"},
-                  value: 150_000
+                  value: %LeadValue{amount: 150_000, currency: "USD"}
                 }
               ]} = Leads.search_leads(client, "farkel")
     end

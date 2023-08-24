@@ -17,8 +17,8 @@ defmodule LineDrive.PagedResult do
   def new(
         data,
         %{
-          success: success,
-          additional_data: additional_data
+          "success" => success,
+          "additional_data" => additional_data
         } = metadata
       ) do
     %__MODULE__{
