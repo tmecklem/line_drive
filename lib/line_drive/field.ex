@@ -32,6 +32,14 @@ defmodule LineDrive.Field do
     field :options, list(FieldOption.t())
   end
 
+  defimpl Jason.Encoder, for: __MODULE__ do
+    def encode(%{} = field, opts) do
+      Jason.Encode.value(Map.take(Map.from_struct(field), [:key, :name]), opts)
+    end
+
+    def encode(field, opts), do: Jason.encode(field, opts)
+  end
+
   def handle_transform(map, _) do
     map
     |> Map.update(:add_time, nil, &parse_datetime/1)

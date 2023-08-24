@@ -14,7 +14,6 @@ defmodule LineDrive do
   defdelegate get_all_org_notes(client, org_id, opts), to: LineDrive.Notes
   defdelegate get_deal(client, deal_id), to: LineDrive.Deals
   defdelegate get_lead(client, lead_id), to: LineDrive.Leads
-  defdelegate get_org_field_keys_and_names(client, opts), to: LineDrive.OrganizationFields
   defdelegate get_organization(client, org_id), to: LineDrive.Organizations
   defdelegate get_person(client, person_id), to: LineDrive.Persons
   defdelegate list_activity_types(client), to: LineDrive.ActivityTypes
