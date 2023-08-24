@@ -6,18 +6,17 @@ defmodule LineDrive.FakePipedriveServer do
 
   use Plug.Router
 
-  import LineDrive.{
-    FakeActivityApiHandler,
-    FakeActivityTypeApiHandler,
-    FakeDealApiHandler,
-    FakeNoteApiHandler,
-    FakeOrganizationFieldApiHandler,
-    FakeOrganizationApiHandler,
-    FakeLeadApiHandler,
-    FakePersonApiHandler,
-    FakePersonFieldApiHandler,
-    FakePipelineApiHandler
-  }
+  import LineDrive.FakeActivityApiHandler
+  import LineDrive.FakeActivityTypeApiHandler
+  import LineDrive.FakeDealApiHandler
+  import LineDrive.FakeDealFieldApiHandler
+  import LineDrive.FakeLeadApiHandler
+  import LineDrive.FakeNoteApiHandler
+  import LineDrive.FakeOrganizationApiHandler
+  import LineDrive.FakeOrganizationFieldApiHandler
+  import LineDrive.FakePersonApiHandler
+  import LineDrive.FakePersonFieldApiHandler
+  import LineDrive.FakePipelineApiHandler
 
   plug(:match)
 
@@ -45,6 +44,12 @@ defmodule LineDrive.FakePipedriveServer do
     conn
     |> put_resp_header("content-type", "application/json;charset=utf-8")
     |> handle_list_deals(conn.query_params)
+  end
+
+  get "/api/v1/dealFields" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_deal_fields()
   end
 
   get "/api/v1/deals/search" do

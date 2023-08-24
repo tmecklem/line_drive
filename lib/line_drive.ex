@@ -19,6 +19,7 @@ defmodule LineDrive do
   defdelegate get_person(client, person_id), to: LineDrive.Persons
   defdelegate list_activity_types(client), to: LineDrive.ActivityTypes
   defdelegate list_deals(client, opts), to: LineDrive.Deals
+  defdelegate list_deal_fields(client, opts), to: LineDrive.DealFields
   defdelegate list_organizations(client, opts), to: LineDrive.Organizations
   defdelegate list_organization_fields(client, opts), to: LineDrive.OrganizationFields
   defdelegate list_person_fields(client, opts), to: LineDrive.PersonFields
