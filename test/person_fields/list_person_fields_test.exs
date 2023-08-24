@@ -2,12 +2,10 @@ defmodule LineDrive.Persons.ListPersonFieldsTest do
   @moduledoc false
   use LineDrive.PipedriveClientCase, async: false
 
-  alias LineDrive.{
-    PagedResult,
-    PersonField,
-    PersonFieldOption,
-    PersonFields
-  }
+  alias LineDrive.Field
+  alias LineDrive.FieldOption
+  alias LineDrive.PagedResult
+  alias LineDrive.PersonFields
 
   describe "list_person_fields" do
     test "it forms a correct request and returns a list of person field objects", %{
@@ -21,7 +19,7 @@ defmodule LineDrive.Persons.ListPersonFieldsTest do
                 },
                 data: [
                   _,
-                  %PersonField{
+                  %Field{
                     id: 9064,
                     key: "8a9fba4ea88bbe2bde6a32efa89960fbdb4f8c71",
                     name: "Things",
@@ -42,15 +40,15 @@ defmodule LineDrive.Persons.ListPersonFieldsTest do
                     active_flag: true,
                     mandatory_flag: false,
                     options: [
-                      %PersonFieldOption{
+                      %FieldOption{
                         id: 21,
                         label: "good"
                       },
-                      %PersonFieldOption{
+                      %FieldOption{
                         id: 22,
                         label: "bad"
                       },
-                      %PersonFieldOption{
+                      %FieldOption{
                         id: 23,
                         label: "indifferent"
                       }
