@@ -5,6 +5,7 @@ defmodule LineDrive.Persons.ListPersonFieldsTest do
   alias LineDrive.{
     PagedResult,
     PersonField,
+    PersonFieldOption,
     PersonFields
   }
 
@@ -39,7 +40,21 @@ defmodule LineDrive.Persons.ListPersonFieldsTest do
                     sortable_flag: true,
                     searchable_flag: true,
                     active_flag: true,
-                    mandatory_flag: false
+                    mandatory_flag: false,
+                    options: [
+                      %PersonFieldOption{
+                        id: 21,
+                        label: "good"
+                      },
+                      %PersonFieldOption{
+                        id: 22,
+                        label: "bad"
+                      },
+                      %PersonFieldOption{
+                        id: 23,
+                        label: "indifferent"
+                      }
+                    ]
                   }
                 ]
               }} = PersonFields.list_person_fields(client)

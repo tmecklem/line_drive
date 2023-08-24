@@ -6,6 +6,8 @@ defmodule LineDrive.PersonField do
   use TypedStruct
   use LineDrive.Structable
 
+  alias LineDrive.PersonFieldOption
+
   typedstruct do
     field :id, pos_integer()
     field :key, String.t()
@@ -26,11 +28,19 @@ defmodule LineDrive.PersonField do
     field :searchable_flag, boolean()
     field :active_flag, boolean()
     field :mandatory_flag, boolean()
+    field :options, list(PersonFieldOption.t())
   end
 
   def handle_transform(map, _) do
     map
     |> Map.update(:add_time, nil, &parse_datetime/1)
     |> Map.update(:update_time, nil, &parse_datetime/1)
+    |> Map.update(:options, nil, &map_person_field_options/1)
   end
+
+  defp map_person_field_options(list) when is_list(list) do
+    Enum.map(list, &PersonFieldOption.new/1)
+  end
+
+  defp map_person_field_options(_), do: nil
 end
