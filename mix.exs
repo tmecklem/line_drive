@@ -8,6 +8,7 @@ defmodule LineDrive.MixProject do
       deps: deps(),
       elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
+      elixirc_options: [warnings_as_errors: true],
       package: package(),
       start_permanent: Mix.env() == :prod,
       version: "0.24.0"
