@@ -8,7 +8,6 @@ defmodule LineDrive.Organization do
 
   typedstruct do
     field :owner_id, pos_integer()
-
     field :name, String.t(), enforce: true
     field :id, pos_integer()
     field :company_id, pos_integer()
@@ -57,6 +56,7 @@ defmodule LineDrive.Organization do
     field :owner_name, String.t()
     field :cc_email, String.t()
     field :value, non_neg_integer()
+    field :original_object, %{}
   end
 
   defimpl Jason.Encoder, for: __MODULE__ do
@@ -73,7 +73,7 @@ defmodule LineDrive.Organization do
 
   def new(val), do: val
 
-  def handle_transform(map, _) do
+  def handle_transform(map, original_map) do
     map
     |> Map.update(:next_activity_date, nil, &parse_date/1)
     |> Map.update(:next_activity_time, nil, &parse_time/1)
@@ -81,5 +81,6 @@ defmodule LineDrive.Organization do
     |> Map.update(:add_time, nil, &parse_datetime/1)
     |> Map.update(:update_time, nil, &parse_datetime/1)
     |> Map.update(:delete_time, nil, &parse_datetime/1)
+    |> Map.put(:original_object, original_map)
   end
 end
