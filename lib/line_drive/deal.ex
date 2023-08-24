@@ -66,9 +66,10 @@ defmodule LineDrive.Deal do
     field :creator_user_id, User.t()
     field :user_id, User.t()
     field :org_id, Organization.t()
+    field :original_object, %{}
   end
 
-  def handle_transform(map, _) do
+  def handle_transform(map, original_map) do
     map
     |> Map.update(:expected_close_date, nil, &parse_date/1)
     |> Map.update(:add_time, nil, &parse_datetime/1)
@@ -87,5 +88,6 @@ defmodule LineDrive.Deal do
     |> Map.update(:user_id, nil, &User.new/1)
     |> Map.update(:org_id, nil, &Organization.new/1)
     |> Map.update(:visible_to, nil, &parse_integer/1)
+    |> Map.put(:original_object, original_map)
   end
 end
