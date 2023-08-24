@@ -10,7 +10,7 @@ defmodule LineDrive.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
       start_permanent: Mix.env() == :prod,
-      version: "0.23.1"
+      version: "0.24"
     ]
   end
 
