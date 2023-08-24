@@ -4,13 +4,10 @@ defmodule LineDrive.ActivityParticipant do
   """
 
   use TypedStruct
+  use LineDrive.Structable
 
   typedstruct enforce: true do
     field :person_id, pos_integer()
     field :primary_flag, boolean()
-  end
-
-  def new(map) do
-    struct(__MODULE__, map)
   end
 end
