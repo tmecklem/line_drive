@@ -1,6 +1,9 @@
 defmodule LineDrive.OrganizationField do
   @moduledoc """
   This module and enclosed structs represent an organization field in pipedrive.
+
+  This module will be removed when the get_organization_fields/1 function is
+  removed. Use the list_organization_fields/1 function instead.
   """
 
   use TypedStruct

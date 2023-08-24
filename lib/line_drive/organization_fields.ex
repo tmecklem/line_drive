@@ -38,6 +38,7 @@ defmodule LineDrive.OrganizationFields do
     end
   end
 
+  @deprecated "Use LineDrive.OrganizationFields.list_organization_fields/2 instead"
   def get_org_field_keys_and_names(%Client{} = client, opts \\ []) do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 200)
