@@ -6,7 +6,9 @@ defmodule LineDrive.Lead do
   use TypedStruct
   use LineDrive.Structable
 
-  alias LineDrive.{LeadOrganization, LeadPerson, LeadValue}
+  alias LineDrive.LeadOrganization
+  alias LineDrive.LeadPerson
+  alias LineDrive.LeadValue
 
   typedstruct do
     field :expected_close_date, Date.t()

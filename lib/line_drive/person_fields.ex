@@ -5,8 +5,8 @@ defmodule LineDrive.PersonFields do
 
   use Tesla
 
+  alias LineDrive.Field
   alias LineDrive.PagedResult
-  alias LineDrive.PersonField
   alias Tesla.Client
 
   @callback list_person_fields(Client.t(), [any()]) :: {:ok, PagedResult.t()}
@@ -24,7 +24,7 @@ defmodule LineDrive.PersonFields do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data} = body}} ->
         person_fields =
           data
-          |> Enum.map(fn person_field -> PersonField.new(person_field) end)
+          |> Enum.map(fn person_field -> Field.new(person_field) end)
 
         {:ok, PagedResult.new(person_fields, body)}
 

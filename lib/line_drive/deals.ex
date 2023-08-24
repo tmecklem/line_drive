@@ -5,11 +5,8 @@ defmodule LineDrive.Deals do
 
   use Tesla
 
-  alias LineDrive.{
-    Deal,
-    PagedResult
-  }
-
+  alias LineDrive.Deal
+  alias LineDrive.PagedResult
   alias Tesla.Client
 
   @callback get_deal(Client.t(), integer) :: {:ok, Deal.t()}

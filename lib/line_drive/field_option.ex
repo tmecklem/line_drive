@@ -1,6 +1,6 @@
-defmodule LineDrive.PersonFieldOption do
+defmodule LineDrive.FieldOption do
   @moduledoc """
-  This module represent a lead value in pipedrive.
+  This is a custom field option for person, org, and other custom fields in pipedrive's API
   """
   use TypedStruct
   use LineDrive.Structable
