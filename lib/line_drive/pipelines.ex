@@ -4,11 +4,8 @@ defmodule LineDrive.Pipelines do
   """
   use Tesla
 
-  alias LineDrive.{
-    Deal,
-    Pipeline
-  }
-
+  alias LineDrive.Deal
+  alias LineDrive.Pipeline
   alias Tesla.Client
 
   @callback list_pipelines(Client.t()) :: {:ok, Pipeline.t()}

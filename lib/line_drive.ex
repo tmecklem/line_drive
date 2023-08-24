@@ -6,39 +6,30 @@ defmodule LineDrive do
   use Tesla
 
   defdelegate add_activity(client, activity), to: LineDrive.Activities
-
-  defdelegate list_activity_types(client), to: LineDrive.ActivityTypes
-
-  defdelegate list_deals(client, opts), to: LineDrive.Deals
-  defdelegate get_deal(client, deal_id), to: LineDrive.Deals
-  defdelegate search_deals(client, term, opts), to: LineDrive.Deals
-
-  defdelegate get_lead(client, lead_id), to: LineDrive.Leads
-  defdelegate search_leads(client, term, opts), to: LineDrive.Leads
-  defdelegate create_lead(client, lead), to: LineDrive.Leads
-
   defdelegate add_note(client, note), to: LineDrive.Notes
-  defdelegate get_all_org_notes(client, org_id, opts), to: LineDrive.Notes
-
-  defdelegate get_org_field_keys_and_names(client, opts), to: LineDrive.OrganizationFields
-
-  defdelegate get_organization(client, org_id), to: LineDrive.Organizations
-  defdelegate list_organizations(client, opts), to: LineDrive.Organizations
-  defdelegate search_organizations(client, term, opts), to: LineDrive.Organizations
+  defdelegate create_lead(client, lead), to: LineDrive.Leads
   defdelegate create_organization(client, org), to: LineDrive.Organizations
-  defdelegate update_organization(client, org_id, data), to: LineDrive.Organizations
-
   defdelegate create_person(client, person), to: LineDrive.Persons
-  defdelegate get_person(client, person_id), to: LineDrive.Persons
-  defdelegate list_persons(client, opts), to: LineDrive.Persons
-  defdelegate search_persons(client, term, opts), to: LineDrive.Persons
-
-  defdelegate list_person_fields(client, opts), to: LineDrive.PersonFields
-
-  defdelegate list_pipelines(client), to: LineDrive.Pipelines
-  defdelegate list_pipeline_deals(client, pipeline_id), to: LineDrive.Pipelines
-
   defdelegate find_users_by_name(client, term, opts \\ []), to: LineDrive.Users
+  defdelegate get_all_org_notes(client, org_id, opts), to: LineDrive.Notes
+  defdelegate get_deal(client, deal_id), to: LineDrive.Deals
+  defdelegate get_lead(client, lead_id), to: LineDrive.Leads
+  defdelegate get_org_field_keys_and_names(client, opts), to: LineDrive.OrganizationFields
+  defdelegate get_organization(client, org_id), to: LineDrive.Organizations
+  defdelegate get_person(client, person_id), to: LineDrive.Persons
+  defdelegate list_activity_types(client), to: LineDrive.ActivityTypes
+  defdelegate list_deals(client, opts), to: LineDrive.Deals
+  defdelegate list_organizations(client, opts), to: LineDrive.Organizations
+  defdelegate list_organization_fields(client, opts), to: LineDrive.OrganizationFields
+  defdelegate list_person_fields(client, opts), to: LineDrive.PersonFields
+  defdelegate list_persons(client, opts), to: LineDrive.Persons
+  defdelegate list_pipeline_deals(client, pipeline_id), to: LineDrive.Pipelines
+  defdelegate list_pipelines(client), to: LineDrive.Pipelines
+  defdelegate search_deals(client, term, opts), to: LineDrive.Deals
+  defdelegate search_leads(client, term, opts), to: LineDrive.Leads
+  defdelegate search_organizations(client, term, opts), to: LineDrive.Organizations
+  defdelegate search_persons(client, term, opts), to: LineDrive.Persons
+  defdelegate update_organization(client, org_id, data), to: LineDrive.Organizations
 
   def client(api_token, base_url) do
     base_url = process_base(base_url)

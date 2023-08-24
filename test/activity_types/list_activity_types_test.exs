@@ -2,10 +2,8 @@ defmodule LineDrive.ActivityTypes.ListActivityTypesTest do
   @moduledoc false
   use LineDrive.PipedriveClientCase, async: false
 
-  alias LineDrive.{
-    ActivityType,
-    ActivityTypes
-  }
+  alias LineDrive.ActivityType
+  alias LineDrive.ActivityTypes
 
   describe "list_activity_types" do
     test "it forms a correct request and returns a list of activity types", %{client: client} do

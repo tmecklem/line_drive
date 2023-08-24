@@ -2,11 +2,9 @@ defmodule LineDrive.Persons.ListPersonsTest do
   @moduledoc false
   use LineDrive.PipedriveClientCase, async: false
 
-  alias LineDrive.{
-    PagedResult,
-    Person,
-    Persons
-  }
+  alias LineDrive.PagedResult
+  alias LineDrive.Person
+  alias LineDrive.Persons
 
   describe "list_persons" do
     test "it forms a correct request and returns a list of person objects", %{client: client} do

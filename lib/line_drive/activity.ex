@@ -3,13 +3,11 @@ defmodule LineDrive.Activity do
   This module and enclosed struct represent a activity in pipedrive.
   """
 
-  alias LineDrive.{
-    ActivityParticipant,
-    ActivityType
-  }
-
   use TypedStruct
   use LineDrive.Structable
+
+  alias LineDrive.ActivityParticipant
+  alias LineDrive.ActivityType
 
   typedstruct do
     field :busy_flag, boolean()

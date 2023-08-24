@@ -5,11 +5,8 @@ defmodule LineDrive.Organizations do
 
   use Tesla
 
-  alias LineDrive.{
-    Organization,
-    PagedResult
-  }
-
+  alias LineDrive.Organization
+  alias LineDrive.PagedResult
   alias Tesla.Client
 
   @callback get_organization(Client.t(), integer) :: {:ok, Organization.t()}
