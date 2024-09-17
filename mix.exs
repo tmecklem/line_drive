@@ -6,7 +6,7 @@ defmodule LineDrive.MixProject do
       app: :line_drive,
       description: description(),
       deps: deps(),
-      elixir: "~> 1.13",
+      elixir: "~> 1.17",
       elixirc_paths: elixirc_paths(Mix.env()),
       elixirc_options: [warnings_as_errors: true],
       package: package(),
@@ -34,8 +34,9 @@ defmodule LineDrive.MixProject do
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:jason, "~> 1.3"},
-      {:plug_cowboy, ">= 1.0.0", optional: true},
-      {:tesla, "~> 1.0"},
+      {:plug, ">= 1.16.0"},
+      {:plug_cowboy, "~> 2.7", only: [:test]},
+      {:tesla, "~> 1.12"},
       {:timex, "~> 3.7"},
       {:typed_struct, "~> 0.3.0"}
     ]
