@@ -54,7 +54,7 @@ defmodule LineDrive.Incoming.Handler do
   end
 
   def transform_event(_, payload) do
-    Logger.warn("Unhandled incoming event: #{inspect(payload)}")
+    Logger.warning("Unhandled incoming event: #{inspect(payload)}")
 
     nil
   end
@@ -62,7 +62,7 @@ defmodule LineDrive.Incoming.Handler do
   defp notify_subscribers(nil), do: nil
 
   defp notify_subscribers({event_type, message}) do
-    Logger.warn("Dispatching event: #{inspect(event_type)}")
+    Logger.warning("Dispatching event: #{inspect(event_type)}")
 
     Registry.dispatch(Registry.LineDriveEvents, event_type, fn entries ->
       for {pid, _} <- entries, do: send(pid, {event_type, message})

@@ -56,7 +56,9 @@ defmodule LineDrive.Deals do
     status = Keyword.get(opts, :status, "open")
 
     client
-    |> get("/api/v1/deals/search", query: [term: term, start: start, limit: limit, status: status])
+    |> get("/api/v1/deals/search",
+      query: [term: term, start: start, limit: limit, status: status]
+    )
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         deals =
