@@ -6,12 +6,12 @@ defmodule LineDrive.MixProject do
       app: :line_drive,
       description: description(),
       deps: deps(),
-      elixir: "~> 1.17",
+      elixir: "~> 1.18",
       elixirc_paths: elixirc_paths(Mix.env()),
       elixirc_options: [warnings_as_errors: true],
       package: package(),
       start_permanent: Mix.env() == :prod,
-      version: "0.25.1"
+      version: "0.25.2"
     ]
   end
 

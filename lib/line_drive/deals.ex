@@ -32,9 +32,19 @@ defmodule LineDrive.Deals do
     start = Keyword.get(opts, :start, 0)
     limit = Keyword.get(opts, :limit, 50)
     status = Keyword.get(opts, :status, "all_not_deleted")
+    pipeline_id = Keyword.get(opts, :pipeline_id, nil)
+
+    query = [start: start, limit: limit, status: status]
+
+    query =
+      if pipeline_id do
+        Keyword.put(query, :pipeline_id, pipeline_id)
+      else
+        query
+      end
 
     client
-    |> get("/api/v1/deals", query: [start: start, limit: limit, status: status])
+    |> get("/api/v1/deals", query: query)
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => nil} = body}} ->
         {:ok, PagedResult.new([], body)}
@@ -56,9 +66,7 @@ defmodule LineDrive.Deals do
     status = Keyword.get(opts, :status, "open")
 
     client
-    |> get("/api/v1/deals/search",
-      query: [term: term, start: start, limit: limit, status: status]
-    )
+    |> get("/api/v1/deals/search", query: [term: term, start: start, limit: limit, status: status])
     |> case do
       {:ok, %Tesla.Env{status: 200, body: %{"success" => true, "data" => data}}} ->
         deals =
