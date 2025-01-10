@@ -172,6 +172,12 @@ defmodule LineDrive.FakePipedriveServer do
     |> handle_get_lead(conn.params)
   end
 
+  get "/api/v1/activities/collection" do
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> handle_list_activities()
+  end
+
   match _ do
     send_resp(conn, 404, "oops")
   end

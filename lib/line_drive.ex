@@ -30,6 +30,7 @@ defmodule LineDrive do
   defdelegate search_organizations(client, term, opts), to: LineDrive.Organizations
   defdelegate search_persons(client, term, opts), to: LineDrive.Persons
   defdelegate update_organization(client, org_id, data), to: LineDrive.Organizations
+  defdelegate list_activities(client, opts \\ []), to: LineDrive.Activities
 
   def client(api_token, base_url) do
     base_url = process_base(base_url)

@@ -154,4 +154,39 @@ defmodule LineDrive.FakeActivityApiHandler do
     conn
     |> send_resp(201, response_body)
   end
+
+  def handle_list_activities(conn) do
+    response_body = ~s"""
+    {
+      "success": true,
+      "data": [
+        {
+          "id": 1,
+          "company_id": 11796774,
+          "user_id": 15783886,
+          "done": false,
+          "type": "call",
+          "due_date": "2024-03-20",
+          "due_time": "10:00",
+          "duration": "01:00",
+          "busy_flag": true,
+          "add_time": "2024-03-20 09:00:00",
+          "subject": "Test Activity",
+          "deal_id": 50,
+          "person_id": 1,
+          "org_id": 1,
+          "location": "Office",
+          "public_description": "Public description"
+        }
+      ],
+      "additional_data": {
+        "next_cursor": "MTIzNDU2Nzg5MA==",
+        "limit": 100
+      }
+    }
+    """
+
+    conn
+    |> send_resp(200, response_body)
+  end
 end
