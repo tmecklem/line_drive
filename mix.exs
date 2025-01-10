@@ -11,7 +11,7 @@ defmodule LineDrive.MixProject do
       elixirc_options: [warnings_as_errors: true],
       package: package(),
       start_permanent: Mix.env() == :prod,
-      version: "0.25.1"
+      version: "0.25.2"
     ]
   end
 
