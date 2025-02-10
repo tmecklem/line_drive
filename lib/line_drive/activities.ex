@@ -53,6 +53,13 @@ defmodule LineDrive.Activities do
         params
       end
 
+    params =
+      if owner_id = Keyword.get(opts, :owner_id) do
+        [{:user_id, owner_id} | params]
+      else
+        params
+      end
+
     client
     |> get("/api/v1/activities/collection", query: params)
     |> case do

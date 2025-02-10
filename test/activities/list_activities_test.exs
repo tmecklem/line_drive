@@ -27,5 +27,14 @@ defmodule LineDrive.Activities.ListActivitiesTest do
                  limit: 50
                )
     end
+
+    test "it accepts cursor, limit, and owner_id parameters", %{client: client} do
+      assert {:ok, %PagedResult{success: true}} =
+               Activities.list_activities(client,
+                 cursor: "MTIzNDU2Nzg5MA==",
+                 limit: 50,
+                 owner_id: 123
+               )
+    end
   end
 end
