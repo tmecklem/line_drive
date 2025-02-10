@@ -33,7 +33,9 @@ defmodule LineDrive.Activities do
       {:cursor, :cursor, nil},
       {:since, :since, nil},
       {:until, :until, nil},
-      {:owner_id, :user_id, nil}
+      {:user_id, :user_id, nil},
+      {:done, :done, nil},
+      {:type, :type, nil}
     ]
 
     params =
