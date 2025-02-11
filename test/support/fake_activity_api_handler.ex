@@ -189,4 +189,73 @@ defmodule LineDrive.FakeActivityApiHandler do
     conn
     |> send_resp(200, response_body)
   end
+
+  def handle_list_own_activities(%{query_params: params} = conn) do
+    limit = String.to_integer(params["limit"] || "100")
+    start = String.to_integer(params["start"] || "0")
+    start_date = params["start_date"]
+    end_date = params["end_date"]
+
+    # Simulate date filtering in the response
+    activities =
+      if start_date || end_date do
+        [
+          %{
+            "id" => 3,
+            "company_id" => 11_796_774,
+            "user_id" => 15_783_886,
+            "done" => false,
+            "type" => "call",
+            "due_date" => start_date || "2024-03-20",
+            "due_time" => "10:00",
+            "duration" => "01:00",
+            "busy_flag" => true,
+            "add_time" => "2024-03-20 09:00:00",
+            "subject" => "Own Activity",
+            "deal_id" => 50,
+            "person_id" => 1,
+            "org_id" => 1,
+            "location" => "Office",
+            "public_description" => "Own activity description"
+          }
+        ]
+      else
+        [
+          %{
+            "id" => 3,
+            "company_id" => 11_796_774,
+            "user_id" => 15_783_886,
+            "done" => false,
+            "type" => "call",
+            "due_date" => "2024-03-20",
+            "due_time" => "10:00",
+            "duration" => "01:00",
+            "busy_flag" => true,
+            "add_time" => "2024-03-20 09:00:00",
+            "subject" => "Own Activity",
+            "deal_id" => 50,
+            "person_id" => 1,
+            "org_id" => 1,
+            "location" => "Office",
+            "public_description" => "Own activity description"
+          }
+        ]
+      end
+
+    response_body = %{
+      "success" => true,
+      "data" => activities,
+      "additional_data" => %{
+        "pagination" => %{
+          "start" => start,
+          "limit" => limit,
+          "more_items_in_collection" => false
+        }
+      }
+    }
+
+    conn
+    |> put_resp_header("content-type", "application/json;charset=utf-8")
+    |> send_resp(200, Jason.encode!(response_body))
+  end
 end

@@ -16,11 +16,13 @@ defmodule LineDrive do
   defdelegate get_lead(client, lead_id), to: LineDrive.Leads
   defdelegate get_organization(client, org_id), to: LineDrive.Organizations
   defdelegate get_person(client, person_id), to: LineDrive.Persons
+  defdelegate list_activities(client, opts \\ []), to: LineDrive.Activities
   defdelegate list_activity_types(client), to: LineDrive.ActivityTypes
   defdelegate list_deals(client, opts), to: LineDrive.Deals
   defdelegate list_deal_fields(client, opts), to: LineDrive.DealFields
   defdelegate list_organizations(client, opts), to: LineDrive.Organizations
   defdelegate list_organization_fields(client, opts), to: LineDrive.OrganizationFields
+  defdelegate list_own_activities(client, opts \\ []), to: LineDrive.Activities
   defdelegate list_person_fields(client, opts), to: LineDrive.PersonFields
   defdelegate list_persons(client, opts), to: LineDrive.Persons
   defdelegate list_pipeline_deals(client, pipeline_id), to: LineDrive.Pipelines
@@ -30,7 +32,6 @@ defmodule LineDrive do
   defdelegate search_organizations(client, term, opts), to: LineDrive.Organizations
   defdelegate search_persons(client, term, opts), to: LineDrive.Persons
   defdelegate update_organization(client, org_id, data), to: LineDrive.Organizations
-  defdelegate list_activities(client, opts \\ []), to: LineDrive.Activities
 
   def client(api_token, base_url) do
     base_url = process_base(base_url)
