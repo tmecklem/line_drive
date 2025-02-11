@@ -28,30 +28,23 @@ defmodule LineDrive.Activities do
   end
 
   def list_activities(%Client{} = client, opts \\ []) do
-    params = [
-      limit: Keyword.get(opts, :limit, 100)
+    param_mappings = [
+      {:limit, :limit, 100},
+      {:cursor, :cursor, nil},
+      {:since, :since, nil},
+      {:until, :until, nil},
+      {:user_id, :user_id, nil},
+      {:done, :done, nil},
+      {:type, :type, nil}
     ]
 
     params =
-      if cursor = Keyword.get(opts, :cursor) do
-        [{:cursor, cursor} | params]
-      else
-        params
-      end
-
-    params =
-      if since = Keyword.get(opts, :since) do
-        [{:since, since} | params]
-      else
-        params
-      end
-
-    params =
-      if until = Keyword.get(opts, :until) do
-        [{:until, until} | params]
-      else
-        params
-      end
+      Enum.reduce(param_mappings, [], fn {opt_key, param_key, default}, params ->
+        case Keyword.get(opts, opt_key, default) do
+          nil -> params
+          value -> [{param_key, value} | params]
+        end
+      end)
 
     client
     |> get("/api/v1/activities/collection", query: params)

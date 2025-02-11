@@ -27,5 +27,29 @@ defmodule LineDrive.Activities.ListActivitiesTest do
                  limit: 50
                )
     end
+
+    test "it accepts cursor, limit, and user_id parameters", %{client: client} do
+      assert {:ok, %PagedResult{success: true}} =
+               Activities.list_activities(client,
+                 cursor: "MTIzNDU2Nzg5MA==",
+                 limit: 50,
+                 user_id: 123
+               )
+    end
+
+    test "it accepts done and type parameters", %{client: client} do
+      assert {:ok, %PagedResult{success: true}} =
+               Activities.list_activities(client,
+                 done: true,
+                 type: "call"
+               )
+    end
+
+    test "it accepts multiple types as comma-separated string", %{client: client} do
+      assert {:ok, %PagedResult{success: true}} =
+               Activities.list_activities(client,
+                 type: "call,meeting"
+               )
+    end
   end
 end
